@@ -1,0 +1,14 @@
+# ===== KiCad 자동 생성 / 임시 파일 =====
+*-backups/
+*.lck
+~*
+fp-info-cache
+*.kicad_prl
+.history/
+
+# ===== 재다운로드 가능한 원본 (UL zip 등) =====
+download/
+
+# ===== Python 캐시 =====
+__pycache__/
+*.pyc
