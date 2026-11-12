@@ -11,63 +11,78 @@
 
 ## 최우선 사양 문서
 
-`docs/DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md` (**Rev.A2**) — 모든 설계 판단의 기준.
-구버전(Rev.A, 20261015)과 충돌하면 **항상 Rev.A2 우선** (예: 출력 극성 `Y→SPDIF+ / Z→SPDIF−`, 직렬저항 120Ω).
+`docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
+- Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2(`docs/DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md`)의 LMR16006 Buck 회로는 **사용하지 않음**
+- 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
+- 확정 결정 기록: BOM 문서 §9 "Decision log"
 
-## 검증된 핀아웃 (제조사 데이터시트 원문 대조 완료, 2026-10-23)
+## 검증된 핀아웃 (Rev.1 Reference 기준, 데이터시트 원문 대조 완료)
 
-| IC | 핀 배열 |
+| Ref / IC | 핀 배열 |
 |---|---|
-| U4 LMR16006YQ5 (SOT-23-6) | 1=CB · 2=GND · 3=FB · 4=SHDN · 5=VIN · 6=SW |
-| U1 TPS7B8333-Q1 (SOT-223) | 1=IN · 2=GND · 3=OUT · 4=TAB=GND |
-| U2 TLV3601-Q1 (SOT-23-5) | 1=OUT · 2=VEE · 3=IN+ · 4=IN− · 5=VCC |
-| U3 MAX3295 (SOT-23-6) | 1=DI · 2=VCC · 3=DE · 4=Z · 5=GND · 6=Y |
-| FL1 ACM2012-900-2P (후보) | Line1 = 핀1→4 · Line2 = 핀2→3 |
+| U1 TSR 1-2450 (SIP-3, THT) | 1=+Vin · 2=GND · 3=+Vout |
+| U2 TPS7B8333QDCYRQ1 (SOT-223 DCY) | 1=IN · 2=GND · 3=OUT · 4=TAB=GND |
+| U3 TLV3601QDBVRQ1 (SOT-23-5) | 1=OUT · 2=VEE · 3=IN+ · 4=IN− · 5=VCC |
+| U4 MAX3295AUT+T (SOT-23-6) | 1=DI · 2=VCC · 3=DE · 4=Z · 5=GND · 6=Y |
+| FL1 ACM2012-900-2P-T001 | Line1 = 핀1↔4 · Line2 = 핀2↔3 (TDK 데이터시트 Circuit Diagram 확인, 무극성) |
+| D1 SB360 (DO-201 축형) | 심볼 `Device:D` 1=K · 2=A ↔ 풋프린트 `SB360:P2_DO-201` 패드1(사각, 띠)=K |
+| F1 Keystone 3557-2 | 핀 1_1·1_2 = 한쪽, 2_1·2_2 = 반대쪽 → **각 쌍을 함께 배선** |
+| J1 KH-BNC75-3511 | 1=중심(In) · 2=GND(Ext) |
 
 - 원문 PDF: `references/datasheets/`
-- **온라인 정보(AI 포함)와 데이터시트가 다륾면 데이터시트가 항상 정답.**
+- **온라인 정보(AI 포함)와 데이터시트가 다르면 데이터시트가 항상 정답.**
   (실제 사례: TPS7B8333이 `1=OUT, 3=IN`으로 잘못 알려진 적 있음 — 실제는 `1=IN, 3=OUT`)
+- 심볼 핀 번호와 풋프린트 패드 번호의 **극성 의미**까지 대조할 것 (D1 사례: 심볼 1=A, 풋프린트 1=K로 반대였음)
 
-## 회로 규칙 (Rev.A2 요약)
+## 회로 규칙 (Rev.1 요약)
 
-- 고정 극성, 점퍼 매트릭스 없음: `U3 Y(6번)→R420대응 120Ω→FL1→SPDIF+`, `Z(4번)→R419대응 120Ω→FL1→SPDIF−`
-- 차동 병렬저항 56Ω (R423 대응)은 **CMC 뒤 커넥터 쪽**에 배치
-- EMI 커패시터 `C593 / C430 / C431 / C433` = **초기 DNP** (풋프린트만 유지)
-- 디커플링 `C4 / C5 / C6 / C13` = **필수 장착** (DNP 아님)
-- Buck D3 쇼트키: **K=SW, A=GND** (역방향 금지)
-- LMR16006Y 고정 5V형: FB를 +5V_BUCK에 **직접** 연결 (분압저항 없음), SHDN은 VIN 직결
+- 전원: ACC 12V → J3 → F1(퓨즈홀더) → D2 TVS(병렬) / D1 SB360(직렬) → C1·C2 → U1 TSR(5V) → U2 LDO(+3.3V)
+- 전원 Net 이름: `+5V`, `+3.3V` (KiCad 기본 전원 심볼). TP3 Value `+3.3V_TP`는 표시용 이름일 뿐, 별도 라벨 금지
+- 출력: `U4 Y(6)→R7 120Ω→극성선택 0Ω→FL1 1→4→SPDIF+`, `U4 Z(4)→R8 120Ω→극성선택 0Ω→FL1 2→3→SPDIF−`
+- R9 56Ω 차동 병렬저항은 **CMC 뒤(FL1 3·4번 쪽) 커넥터 쪽**에 배치
+- 극성선택 0Ω: R10(Y→+)·R11(Z→−) 실장, **R12·R13 역방향 DNP** — 4개 동시 실장 시 Y/Z 쇼트
+- CMC 바이패스 R14(1↔4)·R15(2↔3) = DNP. 1↔3 / 2↔4로 걸면 SPDIF+/− 쇼트
+- DE: R16 0Ω으로 +3.3V 직결 (지연 enable 회로는 미설계, 임의 RC 금지)
+- R6 R_HYS: 풋프린트만, Value `TBD`, DNP. **0Ω 실장 금지** (U3 OUT→IN+ 직결 = 래치, 신호 소실). TLV3601 내부 히스테리시스 1.5~5mV
+- EMI 커패시터 C11~C14 (OEM C593/C430/C431/C433 대응) = Value `TBD`, DNP
 - 테스트 샘플레이트: 우선 44.1/48kHz (192kHz는 MAX3295 20Mbps 한계로 미보장)
 
 ## 치명적 실수 이력 (재발 금지)
 
-1. **U1 Value 오타**: `TPS7B8330`(3.0V)·`TPS7B8350`(5.0V)이 아니라 **`TPS7B8333QDCYRQ1`** (3.3V)
+1. **U2 Value 오타**: `TPS7B8330`(3.0V)·`TPS7B8350`(5.0V)이 아니라 **`TPS7B8333QDCYRQ1`** (3.3V). 풋프린트는 동일 DCY 패키지인 `TPS7B8350QDCYRQ1` 라이브러리 사용
 2. AMS1117식 SOT-223 핀 규약(1=GND, 2=OUT, 3=IN)을 TPS7B83에 적용하지 말 것 — 핀 배정이 다름
 3. MAX3295의 Y/Z 극성, TLV3601의 IN+/IN− 순서 혼동 주의
+4. **MCP로 회로도 직접 수정 금지 사고 (2026-11)**: 라벨 추가 요청에서 배선·재배치·시트 변경까지 하고 롤백하며 사용자 라벨을 삭제함. 요청 범위 밖 수정 금지, 수정 전 백업 필수
+5. `ACM2012-900-2P-T001` UL 풋프린트(`SMT_0-2P-T001_TDK*`)는 피치 1.0mm로 **데이터시트(0.8mm)와 불일치** → 등록 해제함. FL1은 `ACM2012H-900-2P-T00:ACM20121022PT001` 사용 (TDK 권장 랜드패턴과 일치)
 
 ## 라이브러리 구성 (프로젝트 내장)
 
-- 심볼: 닉네임 `symbol` → `${KIPRJMOD}/libraries/symbols` (UL에서 다운로드, 핀 검증 완료)
-- 풋프린트: 닉네임 `UL_FP_MAX3295` / `UL_FP_TLV3601` / `UL_FP_TPS7B83` → `libraries/footprints/*.pretty`
-- 손납대 기준 **-L(대패드) 변종** 권장
+- 심볼/풋프린트 모두 **파일별 닉네임**으로 `sym-lib-table` / `fp-lib-table`에 등록 (`${KIPRJMOD}/libraries/...`)
+  - 예: `TPS7B8350QDCYRQ1`, `TLV3601QDBVRQ1`, `MAX3295AUT-V-T`, `TSR_1-2450`, `3557-2`, `ACM2012H-900-2P-T00`, `FUSE_3557-2`, `SB360`, `CONV_TSR_1-2450`
+  - 구 닉네임 `UL_FP_*`도 같은 폴더를 가리키는 중복 등록으로 남아 있음
+- 손납대 기준 **-L(대패드) 변종** 사용 (U2·U3·U4)
 - 프로젝트 라이브러리 등록은 `sym-lib-table` / `fp-lib-table`로 관리 — **깃에 반드시 포함**
 
 ## MCP 자동화 환경
 
-- `opencode.json` → `uvx kicad-mcp-pro` (프로필 `full`, 모드 `experimental`)
-- KiCad **10.0.6** + `kicad-cli` 자동 감지 (GUI 실행 없이 파일 기반 작업 가능)
-- 주요 도구: `sch_get_symbols`, `run_erc`, `export_sch_pdf`, `sch_build_circuit` 등 332개
-- 작업 시작 전 `kicad_get_project_info`로 프로젝트 연결 확인
+- `opencode.json` → `uvx kicad-mcp-pro` (현재 프로필 `full`, 모드 `experimental`, `kicad_*` 자동 허용)
+- KiCad **10.0.6** + `kicad-cli`. 회로도 IPC 없음 → MCP 회로도 쓰기는 **`.kicad_sch` 파일을 직접 덮어씀** (GUI 미저장 내용과 충돌, Ctrl+Z 불가)
+- 권장 운용: 기본 `readonly`, 쓰기 필요 시에만 `write`, 권한은 `ask`
+- 회로도 쓰기 전: GUI 저장 후 회로도 편집기 닫기(`~HYK_AMP_Converter.kicad_sch.lck` 없음 확인) → `backup/`에 타임스탬프 백업 → 요청 범위만 수정 → diff 보고
+- `run_erc` 도구는 `save_report:false`여도 `output/erc_report.json`을 생성함 → `kicad-cli sch erc --output <TEMP>` 사용 권장
 
 ## 작업 규칙
 
 1. 회로·핀 정보를 바꾸기 전 `references/datasheets/` 원문 확인
 2. ERC/DRC 통과 ≠ 동작 보장 (Rev.A2 §10 검증 게이트 준수)
 3. **사용자 승인 없이 Gerber/제조 파일 생성 금지, 부품 구매 지시 금지**
-4. git push는 사용자가 직접 수행 (에이전트는 커밋까지)
+4. git push는 사용자가 요청한 경우에만 수행
 5. `.kicad_sch`/`.kicad_pcb`를 텍스트로 직접 수정할 경우: 사전 백업 + KiCad 10 포맷 준수
 6. 회로도 배포 전 `run_erc` 실행 및 결과 리포트
 
-## 현재 진행 상태
+## 현재 진행 상태 (2026-11-12)
 
-- 회로도: U1~U4 배치 완료, 수동부품 배치·배선 진행 예정
-- 미완료 검증(Rev.A2 §11): DUDU7 실측 전압, AMP 남부 종단/입력 레벨, F400 정확한 대체 부품, 케이스 기구
+- 회로도: Rev.1 부품 54개 배치 완료 (U1~U4, D1~D2, F1, FL1, J1~J3, R1~R16, C1~C14, TP1~TP13), **배선·라벨 전** (ERC 123건 = 전부 미연결)
+- 저항 필드: Value=실제 값(몸체 안 세로 1.0mm), Description=역할 이름(R_TERM 등)
+- PCB 전 미결: C1 전해 THT 실물 MPN·풋프린트(현재 0805 임시), J2 정품 XH 확정, MLCC·저항 MPN, 케이스 기구
+- 미완료 검증: DUDU7 실측 전압, AMP 남부 종단/입력 레벨, F400 대비 CMC 적합성, 실차 팝노이즈(DE)·무입력 발진(R_HYS)

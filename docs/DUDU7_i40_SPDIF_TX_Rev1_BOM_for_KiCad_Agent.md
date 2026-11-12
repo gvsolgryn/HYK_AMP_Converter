@@ -178,3 +178,25 @@ U4 MAX3295 pin 4 Z ── 120Ω ──[NORMAL/CROSS 0Ω SELECTOR]── CMC CH2 
 - Littelfuse, Diotec, JST, Keystone, Kinghelm, TDK: use exact MPN above to obtain mechanical and electrical manufacturer drawings prior to footprint lock.
 
 **Source of agreed design choices:** Iterative user/assistant project discussion through 2026-11-11. This file is intended to make the existing decisions recoverable by an independent local agent.
+
+## 9. Decision log — 2026-11-12 (user-confirmed, reflected in `HYK_AMP_Converter.kicad_sch`)
+
+Schematic reference mapping for the logical refs above: L1 → **FL1**; FH1 + fuse → **F1**; R_TERM R1, R_BIAS R2, R_REF1 R3, R_REF2 R4, R_OUT R5, R_HYS R6, R_SER_Y R7, R_SER_Z R8, R_DIFF R9, R_POL_YPLUS R10, R_POL_ZMINUS R11, R_POL_YMINUS R12, R_POL_ZPLUS R13, R_CMC_BYPASS1 R14, R_CMC_BYPASS2 R15, R_DE R16; C_AC C9, C_REF C10, C_EMI_* C11–C14. In the schematic, resistor **Value = electrical value**, **Description = logical name**.
+
+| # | Item | Decision | Basis |
+|---|---|---|---|
+| 1 | FL1 CMC part | **TDK ACM2012-900-2P-T001** (standard type). H-type (ACM2012H, T00 obsolete / T06 current) not purchased | User decision; datasheet `references/datasheets/cmf_automotive_signal_acm2012_en.pdf` |
+| 2 | FL1 pin mapping | Line 1 = pin 1↔4, Line 2 = pin 2↔3, no polarity. Y path enters pin 1 → SPDIF+ at pin 4; Z path enters pin 2 → SPDIF− at pin 3. R_DIFF across pins 3/4 side; bypass R14 = 1↔4, R15 = 2↔3 | TDK datasheet Circuit Diagram (user-verified image) |
+| 3 | FL1 footprint | `ACM2012H-900-2P-T00:ACM20121022PT001` (pads 0.75×0.4 mm, gap 1.1 mm, pitch 0.8 mm = TDK recommended land pattern). The UL `ACM2012-900-2P-T001` footprint (pitch 1.0 mm) was **rejected** and unregistered | Footprint vs datasheet dimension check |
+| 4 | F1 fuse + holder | **One symbol F1** with holder footprint `FUSE_3557-2:FUSE_3557-2`; fuse insert `0891002.NXS` recorded in the MPN field (must still be purchased). Wire pins 1_1+1_2 together and 2_1+2_2 together | User decision |
+| 5 | 3.3 V rail name | KiCad power symbol `+3.3V` (logical `+3V3` in §7.4). TP3 Value `+3.3V_TP` is a display name only | User decision |
+| 6 | C1 | Aluminum electrolytic, radial THT, polarized symbol `Device:C_Polarized` (+ to post-Schottky 12 V). Exact MPN / can size / footprint still OPEN (footprint currently a 0805 placeholder — must change before PCB) | §3 of this BOM |
+| 7 | R_DE (R16) | **0 Ω to +3V3, FIT** (final). MAX3295 DE active-high, must not float; tZH ≤ 400 ns. Delayed enable stays undesigned; revisit only if power-up pop is observed in the car | MAX3293/5 datasheet |
+| 8 | R_HYS (R6) | Footprint only, Value `TBD`, **DNP**, may be drawn OUT→IN+. **Never fit 0 Ω** (latches comparator). TLV3601 has internal hysteresis 1.5/3/5 mV (min/typ/max); external value to be calculated only if no-input chatter is observed | TLV3601-Q1 datasheet |
+| 9 | C_EMI (C11–C14) | Value `TBD`, DNP | §5 of this BOM |
+| 10 | DNP set | R6, R12, R13, R14, R15, C11–C14 | §4–§5 of this BOM |
+| 11 | D1 SB360 | Symbol `Device:D` (1=K, 2=A) to match footprint `SB360:P2_DO-201` (pad 1 square + band = cathode). Earlier symbol had 1=A → would have reversed D1 on the PCB | Footprint inspection |
+| 12 | Test points TP1–TP13 | `TestPoint:TestPoint_Pad_D1.5mm` (SMD pad, probe only) | User decision |
+| 13 | U2/U3/U4 footprints | Hand-solder `-L` variants: `TPS7B8350QDCYRQ1:SOT_8350QDCYRQ1_TEX-L`, `TLV3601QDBVRQ1:SOT_DBVRQ1_TEX-L`, `MAX3295AUT-V-T:21-0058_U6CN-2_MXM-L` | AGENTS.md library rule |
+
+Still OPEN after this log: C1 MPN/footprint, J2 exact XH part (footprint currently genuine JST `S3B-XH-A` 2.50 mm), MLCC/resistor MPNs, enclosure/PCB size, U1 TSR pinout image check (symbol and BOM agree: 1=+Vin, 2=GND, 3=+Vout).

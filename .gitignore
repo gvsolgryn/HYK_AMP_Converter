@@ -6,6 +6,11 @@ fp-info-cache
 *.kicad_prl
 .history/
 
+# ===== 로컬 백업 / 출력물 / MCP 작업 파일 =====
+backup/
+output/
+.kicad-mcp/
+
 # ===== 재다운로드 가능한 원본 (UL zip 등) =====
 download/
 

@@ -6,4 +6,8 @@
 	(lib (name "CONV_TSR_1-2450") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/CONV_TSR_1-2450.pretty") (options "") (descr ""))
 	(lib (name "SB360") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/SB360.pretty") (options "") (descr ""))
 	(lib (name "FUSE_3557-2") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/FUSE_3557-2.pretty") (options "") (descr ""))
+	(lib (name "ACM2012H-900-2P-T00") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/ACM2012H-900-2P-T00.pretty") (options "") (descr ""))
+	(lib (name "MAX3295AUT-V-T") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/MAX3295AUT-V-T.pretty") (options "") (descr ""))
+	(lib (name "TLV3601QDBVRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TLV3601QDBVRQ1.pretty") (options "") (descr ""))
+	(lib (name "TPS7B8350QDCYRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TPS7B8350QDCYRQ1.pretty") (options "") (descr ""))
 )
