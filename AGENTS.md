@@ -12,10 +12,11 @@
 ## 최우선 사양 문서
 
 `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
-- Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2(`docs/DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md`)의 LMR16006 Buck 회로는 **사용하지 않음**
+- Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2의 LMR16006 Buck 회로는 **사용하지 않음**
 - 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
 - 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#17)
 - **다음 작업(PCB) 인계 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md`** — 외함 치수, J1 BNC 장착, PCB 제약, 작업 순서, 미결 항목. PCB 작업 전에 먼저 읽을 것
+- **지난 문서는 `docs/archive/`** (Rev.A 초안, Rev.A2, Rev.1 초기 심볼 감사). 부품·번호·외함이 현재와 달라 **기본적으로 읽지 않는다**. 이력·근거가 필요할 때만 열고, 현행 문서와 충돌하면 현행 문서가 우선. 목록과 차이는 `docs/archive/README.md`
 
 ## 검증된 핀아웃 (Rev.1 Reference 기준, 데이터시트 원문 대조 완료)
 
@@ -76,7 +77,7 @@
 ## 작업 규칙
 
 1. 회로·핀 정보를 바꾸기 전 `references/datasheets/` 원문 확인
-2. ERC/DRC 통과 ≠ 동작 보장 (Rev.A2 §10 검증 게이트 준수)
+2. ERC/DRC 통과 ≠ 동작 보장 (제작·시험 게이트: 인계 문서 §8.2~8.3)
 3. **사용자 승인 없이 Gerber/제조 파일 생성 금지, 부품 구매 지시 금지**
 4. git push는 사용자가 요청한 경우에만 수행
 5. `.kicad_sch`/`.kicad_pcb`를 텍스트로 직접 수정할 경우: 사전 백업 + KiCad 10 포맷 준수

@@ -99,8 +99,7 @@ HYK_AMP_Converter/
 │  ├─ DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md               ← ★ 최우선 사양 + Decision log
 │  ├─ DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md   ← ★ PCB·외함 인계 (다음 작업 시작점)
 │  ├─ DUDU7_i40_SPDIF_TX_Rev1_Schematic_Placement_and_Wiring.md/.html  ← 배치·배선 가이드
-│  ├─ DUDU7_i40_SPDIF_TX_Rev1_Symbol_Footprint_Audit_20261111.md    ← 심볼·풋프린트 대조 기록
-│  └─ DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md 외            ← 이전 Rev. (전원단은 사용 안 함)
+│  └─ archive/                                                      ← 지난 문서(Rev.A·Rev.A2·초기 감사). 이력용, 평소엔 읽지 않음
 ├─ references/datasheets/   ← 핀아웃 검증용 제조사 데이터시트 원문
 ├─ references/case_file/    ← 케이스포유 RT-75 도면 zip (로컬 전용, .gitignore — 저작권). 원본: [케이스포유 자료실 RT-75](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)
 ├─ AGENTS.md                ← AI 에이전트 작업 지침 (핀아웃·회로 규칙·사고 이력)
