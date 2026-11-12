@@ -161,6 +161,12 @@
       tab-size: 4;
     }
     pre code { padding: 0; background: transparent; color: inherit; }
+    pre.wiring { font-size: 14px; line-height: 1.5; }
+    pre.wiring .n { color: #7fd4ff; font-weight: 700; }
+    pre.wiring .x { color: #ffb05c; font-weight: 700; }
+    pre.wiring .f { color: #8fe3a6; font-weight: 700; }
+    pre.wiring .c { color: #8c9aa6; }
+    .legend code { white-space: nowrap; }
     .checklist { list-style: none; padding: 0; }
     .checklist li { padding: 6px 0; border-bottom: 1px dashed var(--line); }
     .checklist li:last-child { border-bottom: 0; }
@@ -223,7 +229,7 @@
     <header class="hero" id="start">
       <h1>DUDU7 / FYT7862 → Hyundai i40</h1>
       <h2>S/PDIF TX Rev.1 — KiCad 심볼 배치·핀 연결 가이드</h2>
-      <div class="meta">기준일 2026-11-11 · 기준 문서 <code>docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md</code></div>
+      <div class="meta">기준일 2026-11-11 · 결정 로그 반영 2026-11-13 · 기준 문서 <code>docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md</code> (§9 Decision log 우선)</div>
       <div class="badges">
         <span class="badge">54개 배치 심볼</span>
         <span class="badge">R1~R16</span>
@@ -233,6 +239,7 @@
       </div>
       <div class="warning"><strong>작업 순서:</strong> U1~U4 번호 통일 → 전원부 → 입력부 → MAX3295 → 출력부 → 테스트포인트 → 수동 점검·ERC</div>
       <div class="note">체크 상태는 이 HTML을 연 브라우저의 로컬 저장소에 저장됩니다. 다른 브라우저나 파일 복사본에서는 체크 상태가 공유되지 않을 수 있습니다.</div>
+      <div class="warning"><strong>회로도 실제 이름 (결정 로그 §9):</strong> CMC는 문서의 logical ref <code>L1</code>이 아니라 <strong><code>FL1</code></strong>, 3.3V 전원 넷은 <strong><code>+3.3V</code></strong>(<code>power:+3.3V</code>)입니다. <code>+3V3</code> 라벨을 따로 만들지 마세요. TP3 Value <code>+3.3V_TP</code>는 표시용입니다.</div>
       <div class="toolbar">
         <div class="progress-wrap">
           <div class="progress-label"><span>부품·테스트포인트 배치 진행률</span><strong id="progressText">0 / 54</strong></div>
@@ -269,36 +276,27 @@
         <thead><tr><th>대상</th><th>사용할 심볼</th><th>사용 방법</th></tr></thead>
         <tbody>
           <tr><td class="ref">U1</td><td><code>Converter_DCDC:TSR_1-2450</code></td><td>KiCad 공용 정확형 심볼이 있으므로 그대로 사용 가능. <code>1=VIN</code>, <code>2=GND</code>, <code>3=VOUT</code> 확인 완료. 현재 공용 심볼과 기본 TSR-1 풋프린트 조합 사용 가능.</td></tr>
-          <tr><td class="ref">U2</td><td><code>symbols:TPS7B8350QDCYRQ1</code></td><td>핀맵 재사용 가능. Value는 반드시 <code>TPS7B8333QDCYRQ1</code>로 변경. Footprint는 <code>UL_FP_TPS7B83:SOT_8350QDCYRQ1_TEX-L</code>.</td></tr>
+          <tr><td class="ref">U2</td><td><code>TPS7B8350QDCYRQ1:TPS7B8350QDCYRQ1</code></td><td>핀맵 재사용 가능. Value는 반드시 <code>TPS7B8333QDCYRQ1</code>. Footprint는 <code>TPS7B8350QDCYRQ1:SOT_8350QDCYRQ1_TEX-L</code>. <code>1=IN</code>, <code>2=GND</code>, <code>3=OUT</code>, <code>4=GND</code>.</td></tr>
           <tr><td class="ref">U3</td><td><code>symbols:TLV3601QDBVRQ1</code></td><td>검증된 프로젝트 심볼 사용. <code>1=OUT</code>, <code>2=GND</code>, <code>3=IN+</code>, <code>4=IN−</code>, <code>5=VCC</code>.</td></tr>
           <tr><td class="ref">U4</td><td><code>symbols:MAX3295AUT_V+T</code></td><td>동일 핀맵 재사용 가능. Rev.1 Value는 반드시 <code>MAX3295AUT+T</code>로 변경. <code>Y=6</code>, <code>Z=4</code>.</td></tr>
-          <tr><td class="ref">D1</td><td><code>Device:D_Schottky</code></td><td>공용 Schottky 심볼 사용 가능. <code>1=A</code>, <code>2=K</code>, Value <code>SB360</code>, Footprint <code>SB360:P2_DO-201</code>.</td></tr>
+          <tr><td class="ref">D1</td><td><code>Device:D</code></td><td><strong><code>1=K</code>, <code>2=A</code></strong> — 풋프린트 <code>SB360:P2_DO-201</code> 패드1(사각·띠)=K와 일치 (결정 로그 #11). <code>1=A</code>인 심볼을 쓰면 PCB에서 D1이 뒤집힙니다. Value <code>SB360</code>.</td></tr>
           <tr><td class="ref">D2</td><td><code>Diode:1.5KExxCA</code> 또는 <code>Device:D_TVS</code></td><td>둘 다 양방향 TVS에 사용 가능. Value는 정확히 <code>1.5KE22CA</code>로 변경. 현재 <code>Diode_THT:D_DO-201AE_P15.24mm_Horizontal</code> 사용 가능.</td></tr>
-          <tr><td class="ref">F1 / FH1</td><td><code>symbols:3557-2</code> 또는 <code>Device:Fuse</code></td><td>홀더 심볼 핀 <code>1_1/1_2</code>, <code>2_1/2_2</code>와 새 풋프린트 패드는 일치. Value/MPN은 실제 퓨즈 <code>0891002.NXS</code>, 별도 속성 <code>HOLDER_MPN=3557-2</code>, Footprint <code>FUSE_3557-2:FUSE_3557-2</code>로 지정.</td></tr>
-          <tr><td class="ref">L1</td><td><code>Device:Filter_EMI_LL_1423</code></td><td>공용 2라인 필터 후보. 실제 CMC와 풋프린트의 채널이 <code>1→4</code>, <code>2→3</code>일 때만 사용. Value <code>ACM2012-900-2P-T001</code>. 채널이 다륩면 전용 심볼 사용.</td></tr>
-          <tr><td class="ref">J1</td><td><code>Connector:Conn_Coaxial</code></td><td>공용 동축 심볼 사용 가능. Value <code>KH-BNC75-3511</code>. CENTER/SHIELD와 실제 BNC 풋프린트 패드 매핑은 별도 확인.</td></tr>
-          <tr><td class="ref">J2</td><td><code>Connector_Generic:Conn_01x03</code></td><td>공용 3핀 심볼 사용 가능. Value는 실제 구매한 XH 커넥터 MPN으로 변경하고 pitch·핀 순서 확인.</td></tr>
-          <tr><td class="ref">J3</td><td><code>Connector_Generic:Conn_01x02</code></td><td>공용 2핀 심볼 사용 가능. Value <code>JST B2PS-VH</code>. ACC/GND의 실제 패드 번호 확인.</td></tr>
+          <tr><td class="ref">F1 / FH1</td><td><code>3557-2:3557-2</code></td><td>F1 심볼 하나로 표현 (결정 로그 #4). <strong><code>1_1</code>+<code>1_2</code>를 함께, <code>2_1</code>+<code>2_2</code>를 함께 배선</strong>. Footprint <code>FUSE_3557-2:FUSE_3557-2</code>. 퓨즈 인서트 <code>0891002.NXS</code>는 MPN 필드에 기록.</td></tr>
+          <tr><td class="ref">FL1</td><td><code>ACM2012H-900-2P-T00:ACM2012H-900-2P-T00</code></td><td>Value <code>ACM2012-900-2P-T001</code> (H/non-H 동일 치수). <strong>Line1 = 1↔4, Line2 = 2↔3</strong> (TDK Circuit Diagram, 무극성). Footprint <code>ACM2012H-900-2P-T00:ACM20121022PT001</code>.</td></tr>
+          <tr><td class="ref">J1</td><td><code>Connector:Conn_Coaxial</code></td><td>Value <code>KH-BNC75-3511</code>. <strong><code>1=In</code>(CENTER), <code>2=Ext</code>(SHIELD)</strong>. 실제 BNC 풋프린트는 PCB 단계에서 확정.</td></tr>
+          <tr><td class="ref">J2</td><td><code>Connector_Generic:Conn_01x03</code></td><td><strong><code>1=SPDIF+</code>, <code>2=SPDIF−</code>, <code>3=GND</code></strong> (결정 로그 #15). Value는 실제 구매한 XH 커넥터 MPN으로 변경하고 pitch 확인.</td></tr>
+          <tr><td class="ref">J3</td><td><code>Connector_Generic:Conn_01x02</code></td><td>Value <code>JST B2PS-VH</code>. <strong><code>1=ACC_IN</code>, <code>2=GND</code></strong> (결정 로그 #15).</td></tr>
           <tr><td class="ref">C1</td><td><code>Device:C_Polarized</code></td><td>극성 전해커패시터 심볼. Value <code>22uF/50V</code>, 실제 MPN·직경·리드 간격은 구매 부품으로 확정.</td></tr>
           <tr><td class="ref">C2~C14</td><td><code>Device:C</code></td><td>일반 커패시터 심볼. 각 행의 값과 FIT/DNP를 그대로 적용하고 0805 풋프린트 지정.</td></tr>
           <tr><td class="ref">R1~R16</td><td><code>Device:R</code></td><td>일반 저항 심볼. 각 행의 값·FIT/DNP 적용. 0805 풋프린트 지정.</td></tr>
           <tr><td class="ref">TP1~TP13</td><td><code>Connector:TestPoint</code></td><td>공용 테스트포인트 심볼. 각 행의 Net 이름으로 연결.</td></tr>
-          <tr><td class="ref">전원</td><td><code>power:+5V</code>, <code>power:+3V3</code>, <code>power:GND</code></td><td>공용 전원 심볼 사용. <code>PWR_FLAG</code>는 ERC에서 전원 공급 오류가 발생하는 위치에만 추가.</td></tr>
+          <tr><td class="ref">전원</td><td><code>power:+5V</code>, <code>power:+3.3V</code>, <code>power:GND</code></td><td>공용 전원 심볼 사용. <code>PWR_FLAG</code>는 ERC에서 전원 공급 오류가 발생하는 위치에만 추가.</td></tr>
         </tbody>
       </table></div>
       <div class="note"><strong>새로 받은 프로젝트 심볼도 그대로 사용할 수 있습니다.</strong> TSR과 3557-2 심볼의 기본 Footprint 필드는 프로젝트 닉네임인 <code>CONV_TSR_1-2450</code>, <code>FUSE_3557-2</code>에 맞췄습니다. U1은 공용 정확형 심볼이 이미 있으므로 굳이 프로젝트 심볼로 교체할 필요는 없습니다.</div>
 
       <h3 id="parts-active">1.1 IC·보호부품·CMC·커넥터</h3>
-      <div class="warning"><strong>현재 회로도 파일 점검 결과 — 배선 전에 수정할 항목</strong>
-        <ul>
-          <li><code>U4</code>: 현재 <code>MAX3295AUT/V+T</code> → Rev.1 기준 <strong><code>MAX3295AUT+T</code></strong>로 Value 변경</li>
-          <li><code>D2</code>: 현재 <code>1.5KExxCA</code> → <strong><code>1.5KE22CA</code></strong>로 Value 변경</li>
-          <li><code>F1</code>: 현재 홀더 중심 값 → 퓨즈 <strong><code>0891002.NXS</code></strong>로 Value/MPN 변경하고 <code>HOLDER_MPN=3557-2</code> 추가</li>
-          <li><code>F1 Footprint</code>: 현재 <code>3557-2:FUSE_3557-2</code> → 등록된 닉네임 <strong><code>FUSE_3557-2:FUSE_3557-2</code></strong>로 변경</li>
-          <li><code>L1, J1, J2, J3</code>: 아직 미배치</li>
-        </ul>
-        U1, U2, U3 및 D1/D2의 심볼 핀 번호와 새 TSR·SB360·3557-2 풋프린트 패드 매핑은 확인했습니다.
-      </div>
+      <div class="success"><strong>현재 회로도 상태 (2026-11-13):</strong> 54개 전부 배치 완료. U4 <code>MAX3295AUT+T</code>, D2 <code>1.5KE22CA</code>, F1 Footprint <code>FUSE_3557-2:FUSE_3557-2</code>, D1 <code>Device:D</code>(1=K) 반영됨. 남은 필드 정리: F1 Value/MPN(현재 <code>3557-2[Fuse_Holder]</code>, <code>MPN=3557-2</code>, <code>Fuse_MPN=0891002.nxs</code>).</div>
       <div class="table-wrap"><table>
         <thead><tr><th>완료</th><th>Ref</th><th>심볼 / 값</th><th>실장</th><th>비고</th></tr></thead>
         <tbody>
@@ -307,9 +305,9 @@
           <tr><td class="check"><input type="checkbox" id="part-u3" data-part="true" aria-label="U3 배치 완료"></td><td class="ref">U3</td><td><code>TLV3601QDBVRQ1</code></td><td><span class="fit">FIT</span></td><td>Comparator, SOT-23-5</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-u4" data-part="true" aria-label="U4 배치 완료"></td><td class="ref">U4</td><td><code>MAX3295AUT+T</code></td><td><span class="fit">FIT</span></td><td>차동 드라이버, SOT-23-6</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-d1" data-part="true" aria-label="D1 배치 완료"></td><td class="ref">D1</td><td><code>SB360</code></td><td><span class="fit">FIT</span></td><td>직렬 역극성 보호 Schottky</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-d2" data-part="true" aria-label="D2 배치 완료"></td><td class="ref">D2</td><td><code>1.5KE22CA</code></td><td><span class="fit">FIT</span></td><td>양방향 TVS, 전원–GND 병렬</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-d2" data-part="true" aria-label="D2 배치 완료"></td><td class="ref">D2</td><td><code>1.5KE22CA</code></td><td><span class="fit">FIT</span></td><td>양방향 TVS, <strong>ACC_FUSED ↔ GND</strong> 병렬 (D1 앞)</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-f1" data-part="true" aria-label="F1 배치 완료"></td><td class="ref">F1</td><td><code>0891002.NXS</code>, 2A</td><td><span class="fit">FIT</span></td><td>LP Mini 블레이드 퓨즈</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-l1" data-part="true" aria-label="L1 배치 완료"></td><td class="ref">L1</td><td><code>ACM2012-900-2P-T001</code></td><td><span class="fit">FIT</span></td><td>2채널 CMC, 후보 부품</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-l1" data-part="true" aria-label="FL1 배치 완료"></td><td class="ref">FL1</td><td><code>ACM2012-900-2P-T001</code></td><td><span class="fit">FIT</span></td><td>2채널 CMC (Line1 1↔4, Line2 2↔3)</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-j1" data-part="true" aria-label="J1 배치 완료"></td><td class="ref">J1</td><td><code>KH-BNC75-3511</code></td><td><span class="fit">FIT</span></td><td>75Ω BNC 입력</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-j2" data-part="true" aria-label="J2 배치 완료"></td><td class="ref">J2</td><td>3핀 XH 계열</td><td><span class="fit">FIT</span></td><td>SPDIF+ / SPDIF− / GND, 정확한 MPN 미정</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-j3" data-part="true" aria-label="J3 배치 완료"></td><td class="ref">J3</td><td><code>JST B2PS-VH</code></td><td><span class="fit">FIT</span></td><td>ACC 12V / GND 전원 입력</td></tr>
@@ -326,8 +324,8 @@
           <tr><td class="check"><input type="checkbox" id="part-c2" data-part="true" aria-label="C2 배치 완료"></td><td class="ref">C2</td><td>100nF / 50V X7R</td><td><span class="fit">FIT</span></td><td>VIN_PROTECTED ↔ GND</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-c3" data-part="true" aria-label="C3 배치 완료"></td><td class="ref">C3</td><td>10µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U1 5V 출력 +5V ↔ GND</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-c4" data-part="true" aria-label="C4 배치 완료"></td><td class="ref">C4</td><td>1µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U2 입력 +5V ↔ GND</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-c5" data-part="true" aria-label="C5 배치 완료"></td><td class="ref">C5</td><td>10µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U2 출력 +3V3 ↔ GND</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-c6" data-part="true" aria-label="C6 배치 완료"></td><td class="ref">C6</td><td>10µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>C5와 병렬, +3V3 ↔ GND</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-c5" data-part="true" aria-label="C5 배치 완료"></td><td class="ref">C5</td><td>10µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U2 출력 +3.3V ↔ GND</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-c6" data-part="true" aria-label="C6 배치 완료"></td><td class="ref">C6</td><td>10µF / 16V X7R</td><td><span class="fit">FIT</span></td><td>C5와 병렬, +3.3V ↔ GND</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-c7" data-part="true" aria-label="C7 배치 완료"></td><td class="ref">C7</td><td>100nF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U3 VCC 국소 디커플링</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-c8" data-part="true" aria-label="C8 배치 완료"></td><td class="ref">C8</td><td>100nF / 16V X7R</td><td><span class="fit">FIT</span></td><td>U4 VCC 국소 디커플링</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-c9" data-part="true" aria-label="C9 배치 완료"></td><td class="ref">C9</td><td>10nF / 50V X7R</td><td><span class="fit">FIT</span></td><td>입력 AC coupling, C_AC</td></tr>
@@ -345,13 +343,13 @@
         <tbody>
           <tr><td class="check"><input type="checkbox" id="part-r1" data-part="true" aria-label="R1 배치 완료"></td><td class="ref">R1</td><td>R_TERM</td><td>75Ω / 1%</td><td><span class="fit">FIT</span></td><td>COAX_SPDIF ↔ GND</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-r2" data-part="true" aria-label="R2 배치 완료"></td><td class="ref">R2</td><td>R_BIAS</td><td>2.2kΩ / 1%</td><td><span class="fit">FIT</span></td><td>SPDIF_AC ↔ VREF</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-r3" data-part="true" aria-label="R3 배치 완료"></td><td class="ref">R3</td><td>R_REF1</td><td>2.2kΩ / 1%</td><td><span class="fit">FIT</span></td><td>+3V3 ↔ VREF</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-r3" data-part="true" aria-label="R3 배치 완료"></td><td class="ref">R3</td><td>R_REF1</td><td>2.2kΩ / 1%</td><td><span class="fit">FIT</span></td><td>+3.3V ↔ VREF</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-r4" data-part="true" aria-label="R4 배치 완료"></td><td class="ref">R4</td><td>R_REF2</td><td>2.2kΩ / 1%</td><td><span class="fit">FIT</span></td><td>VREF ↔ GND</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-r5" data-part="true" aria-label="R5 배치 완료"></td><td class="ref">R5</td><td>R_OUT</td><td>0Ω</td><td><span class="fit">FIT</span></td><td>U3 OUT → U4 DI, 필요 시 22Ω</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-r6" data-part="true" aria-label="R6 배치 완료"></td><td class="ref">R6</td><td>R_HYS</td><td>TBD</td><td><span class="dnp">DNP</span></td><td>미설계 히스테리시스 자리, 임의 배선 금지</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-r6" data-part="true" aria-label="R6 배치 완료"></td><td class="ref">R6</td><td>R_HYS</td><td>TBD</td><td><span class="dnp">DNP</span></td><td>U3 OUT(CMP_OUT) ↔ U3 IN+(SPDIF_AC) 자리만, 값 미설계</td></tr>
         </tbody>
       </table></div>
-      <div class="warning">R6은 자리만 남길 경우 격리된 DNP placeholder로 두세요. 양단을 임의의 신호에 연결하지 않으며, ERC 처리를 위해 no-connect 표시가 필요할 수 있습니다.</div>
+      <div class="warning">R6은 <strong>DNP · Value <code>TBD</code></strong>입니다. 결정 로그 #8에 따라 <code>CMP_OUT ↔ SPDIF_AC</code>(OUT→IN+)로 그려 둘 수 있습니다. <strong>0Ω 실장 금지</strong> — OUT과 IN+가 직결되면 비교기가 래치되어 신호가 사라집니다. 값은 무입력 발진이 실측될 때만 계산합니다.</div>
 
       <h3 id="parts-output-r">1.4 MAX3295 출력부 저항 R7~R16</h3>
       <div class="table-wrap"><table>
@@ -366,10 +364,10 @@
           <tr><td class="check"><input type="checkbox" id="part-r13" data-part="true" aria-label="R13 배치 완료"></td><td class="ref">R13</td><td>R_POL_ZPLUS</td><td>0Ω</td><td><span class="dnp">DNP</span></td><td>Z 경로 → CMC 채널1</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-r14" data-part="true" aria-label="R14 배치 완료"></td><td class="ref">R14</td><td>R_CMC_BYPASS1</td><td>0Ω</td><td><span class="dnp">DNP</span></td><td>CMC 채널1 입력↔출력 우회</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-r15" data-part="true" aria-label="R15 배치 완료"></td><td class="ref">R15</td><td>R_CMC_BYPASS2</td><td>0Ω</td><td><span class="dnp">DNP</span></td><td>CMC 채널2 입력↔출력 우회</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-r16" data-part="true" aria-label="R16 배치 완료"></td><td class="ref">R16</td><td>R_DE</td><td>0Ω</td><td><span class="fit">FIT</span></td><td>+3V3 → U4 DE(3)</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-r16" data-part="true" aria-label="R16 배치 완료"></td><td class="ref">R16</td><td>R_DE</td><td>0Ω</td><td><span class="fit">FIT</span></td><td>+3.3V → U4 DE(3)</td></tr>
         </tbody>
       </table></div>
-      <div class="warning"><strong>기본은 R10+R11만 실장입니다.</strong> R12/R13까지 함께 실장하면 차동 출력이 단락될 수 있습니다. R14/R15는 L1을 제거할 때만 대체 실장합니다.</div>
+      <div class="warning"><strong>기본은 R10+R11만 실장입니다.</strong> R12/R13까지 함께 실장하면 차동 출력이 단락될 수 있습니다. R14/R15는 FL1을 제거할 때만 대체 실장합니다.</div>
 
       <h3 id="parts-tp">1.5 테스트포인트 TP1~TP13</h3>
       <div class="table-wrap"><table>
@@ -377,7 +375,7 @@
         <tbody>
           <tr><td class="check"><input type="checkbox" id="part-tp1" data-part="true" aria-label="TP1 배치 완료"></td><td class="ref">TP1</td><td>VIN_PROTECTED</td><td>퓨즈·보호 이후 12V</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-tp2" data-part="true" aria-label="TP2 배치 완료"></td><td class="ref">TP2</td><td>+5V</td><td>U1 5V 출력</td></tr>
-          <tr><td class="check"><input type="checkbox" id="part-tp3" data-part="true" aria-label="TP3 배치 완료"></td><td class="ref">TP3</td><td>+3V3</td><td>U2 3.3V 출력</td></tr>
+          <tr><td class="check"><input type="checkbox" id="part-tp3" data-part="true" aria-label="TP3 배치 완료"></td><td class="ref">TP3</td><td>+3.3V</td><td>U2 3.3V 출력</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-tp4" data-part="true" aria-label="TP4 배치 완료"></td><td class="ref">TP4</td><td>GND</td><td>기준 접지</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-tp5" data-part="true" aria-label="TP5 배치 완료"></td><td class="ref">TP5</td><td>COAX_SPDIF</td><td>BNC 동축 입력</td></tr>
           <tr><td class="check"><input type="checkbox" id="part-tp6" data-part="true" aria-label="TP6 배치 완료"></td><td class="ref">TP6</td><td>SPDIF_AC</td><td>U3 IN+</td></tr>
@@ -393,7 +391,7 @@
 
       <h3>1.6 부품 번호가 없는 회로도 심볼</h3>
       <ul>
-        <li>전원 심볼: <code>+5V</code>, <code>+3V3</code>, <code>GND</code></li>
+        <li>전원 심볼: <code>+5V</code>, <code>+3.3V</code>, <code>GND</code></li>
         <li>Net 라벨: <code>ACC_IN</code>, <code>ACC_FUSED</code>, <code>VIN_PROTECTED</code>, <code>COAX_SPDIF</code>, <code>SPDIF_AC</code>, <code>VREF</code>, <code>CMP_OUT</code>, <code>DI</code>, <code>DE</code>, <code>Y_RAW</code>, <code>Z_RAW</code>, <code>SPDIF_P</code>, <code>SPDIF_N</code></li>
         <li>CMC 입력 측 보조 라벨: <code>PAIR_P</code>, <code>PAIR_N</code></li>
         <li><code>PWR_FLAG</code>: ERC 전원 공급 오류가 나오는 위치에만 추가</li>
@@ -404,64 +402,65 @@
 
     <section class="card" id="power">
       <h2>2. 전원부 핀 연결</h2>
-      <div class="note"><strong>공통 표기:</strong> A = Anode, K = Cathode. J1~J3과 L1의 핀 이름은 논리 이름입니다. 실제 물리 핀 번호는 제조사 도면과 풋프린트로 별도 확인하세요.</div>
+      <div class="note legend"><strong>그림 읽는 법:</strong> <code>[ACC_IN]</code>처럼 <strong>대괄호 = 넷 라벨</strong>(이름은 1.6 목록과 동일) · 대괄호 없는 <code>GND</code> = 전원 심볼 · 박스 안 숫자와 <code>pin N</code> = 심볼 핀 번호 · <code>├──</code>/<code>└──</code> = 같은 넷 분기 · <code>←</code> 뒤 = 설명 · <span class="fit">FIT</span> <span class="dnp">DNP</span><br>J2·J3의 <code>ACC</code>, <code>SPDIF+</code> 같은 박스 안 이름은 커넥터 <strong>핀 이름</strong>이고 넷 이름이 아닙니다(핀 배정: J3 1=ACC·2=GND, J2 1=SPDIF+·2=SPDIF−·3=GND, GND는 항상 마지막). J1(1=In, 2=Ext)과 FL1(1↔4, 2↔3)은 확인 완료.</div>
 
       <details open>
         <summary>2.1 ACC 12V 입력·보호·U1 5V 모듈</summary>
         <div class="detail-body">
-<pre><code>                                      D1 SB360
-J3 ACC ── F1 2A ── ACC_FUSED ── A ──|&gt;|── K ──●── VIN_PROTECTED
-                                               │
-J3 GND ────────────────────────────────────────┼────────────── GND
-                                               │
-                    ┌──────────────────────────┼──────────────────┐
-                    │                          │                  │
-                   D2                         C1                 C2
-                1.5KE22CA                   22µF/50V           100nF/50V
-               bidirectional               electrolytic           X7R
-                    │                          │                  │
-                    └──────────────────────────┴──────── GND ─────┘
+<pre class="wiring"><code>J3  JST B2PS-VH                  <span class="c">← 결정 로그 #15: 이름 순서, GND 마지막</span>
+┌─────────┐
+│ 1  ACC  ├──── <span class="n">[ACC_IN]</span>          <span class="c">← 빨강</span>
+│ 2  GND  ├──── GND               <span class="c">← 검정</span>
+└─────────┘
 
-C1은 극성 부품: + → VIN_PROTECTED, − → GND
-D2는 VIN_PROTECTED ↔ GND 사이 병렬 TVS다. 직렬로 넣지 않는다.
+F1  0891002.NXS 2A  (홀더 Keystone 3557-2, 1_1+1_2 / 2_1+2_2 각각 묶음)
+              ┌───────────┐
+<span class="n">[ACC_IN]</span> ──┬──┤1_1     2_1├──┬── <span class="n">[ACC_FUSED]</span>
+           └──┤1_2     2_2├──┘
+              └───────────┘
 
-                         U1 TSR 1-2450
-VIN_PROTECTED ─────────── pin 1 +VIN
-GND ───────────────────── pin 2 GND
-+5V ───────────────────── pin 3 +VOUT
+<span class="n">[ACC_FUSED]</span> ──┬── D2   1.5KE22CA bidirectional ── GND   <span class="c">← D1 앞, 음(−) 서지에서 D1 보호</span>
+              └── D1 pin 2 (A)
 
-+5V ──●────────────────────────────────────────────── 다음 U2 입력으로
-      │
-      ├── C3 10µF/16V X7R ── GND
-      │
-      └── TP2 +5V
+D1  SB360  (Device:D → 1 = K, 2 = A)
+<span class="n">[ACC_FUSED]</span> ──── 2 A ──|&gt;|── K 1 ──── <span class="n">[VIN_PROTECTED]</span>
 
-VIN_PROTECTED ── TP1
-GND ──────────── TP4</code></pre>
+<span class="n">[VIN_PROTECTED]</span> ──┬── C1   22µF/50V  (+) ────── (−) ── GND
+                  ├── C2   100nF/50V X7R ──────────── GND
+                  ├── TP1
+                  └── U1 pin 1 (+VIN)
+
+U1  TRACO TSR 1-2450 (SIP-3)
+                   ┌────────────────────┐
+<span class="n">[VIN_PROTECTED]</span> ───┤1 +VIN              │
+            GND ───┤2 GND       +VOUT 3 ├─── <span class="n">[+5V]</span>
+                   └────────────────────┘
+
+<span class="n">[+5V]</span> ──┬── C3   10µF/16V X7R ── GND
+        ├── TP2
+        └── U2 pin 1 (IN)
+
+GND ──── TP4</code></pre>
+          <p>C1은 극성 부품입니다: <code>+</code> → <code>VIN_PROTECTED</code>, <code>−</code> → <code>GND</code>. D2는 <strong><code>ACC_FUSED ↔ GND</code></strong> 병렬 TVS이며 직렬로 넣지 않습니다.</p>
+          <div class="success"><strong>D2 위치 확정 (결정 로그 #14):</strong> D2는 <strong>D1 앞</strong>(<code>ACC_FUSED</code>)에 둡니다. 양방향 TVS가 음(−) 서지를 약 −30V로 클램프해 D1(SB360, 역내압 60V)과 그 뒤 C1·U1을 보호합니다. 배터리 역결선(−12V)에서는 TVS가 도통하지 않고 D1이 차단합니다.</div>
         </div>
       </details>
 
       <details open>
         <summary>2.2 U2 TPS7B8333 — 3.3V LDO</summary>
         <div class="detail-body">
-<pre><code>                              U2 TPS7B8333QDCYRQ1
-+5V ────────────────────────── pin 1 IN
-GND ────────────────────────── pin 2 GND
-+3V3 ───────────────────────── pin 3 OUT
-GND ────────────────────────── pin 4 TAB = GND
+<pre class="wiring"><code>U2  TPS7B8333QDCYRQ1 (SOT-223 DCY)
+          ┌───────────────────┐
+<span class="n">[+5V]</span> ────┤1 IN         OUT 3 ├──── <span class="n">[+3.3V]</span>
+  GND ────┤2 GND              │
+  GND ────┤4 TAB = GND        │      <span class="c">← 4번(TAB)은 GND. OUT에 연결 금지</span>
+          └───────────────────┘
 
-+5V ──●────────────── U2.1 IN
-      │
-      └── C4 1µF/16V X7R ── GND
+<span class="n">[+5V]</span> ──── C4   1µF/16V X7R ── GND            <span class="c">← U2 1번 핀 가까이</span>
 
-U2.3 OUT ──●── +3V3
-           │
-           ├── C5 10µF/16V X7R ── GND
-           ├── C6 10µF/16V X7R ── GND     ← C5와 병렬
-           └── TP3 +3V3
-
-U2.2 GND ── GND
-U2.4 TAB ── GND                              ← OUT에 연결 금지</code></pre>
+<span class="n">[+3.3V]</span> ──┬── C5   10µF/16V X7R ── GND
+          ├── C6   10µF/16V X7R ── GND        <span class="c">← C5와 병렬</span>
+          └── TP3  (Value +3.3V_TP)</code></pre>
           <p>C5/C6은 모두 FIT입니다. MLCC의 DC bias 이후 실효 용량이 LDO 최소 안정 조건을 만족하는지 부품 선정 시 확인하세요.</p>
         </div>
       </details>
@@ -473,19 +472,20 @@ U2.4 TAB ── GND                              ← OUT에 연결 금지</code>
       <details open>
         <summary>3.1 J1 — 75Ω 동축 입력과 AC coupling</summary>
         <div class="detail-body">
-<pre><code>J1 CENTER ──●── COAX_SPDIF
-            │
-            ├── R1 75Ω ── GND
-            │
-            ├── TP5 COAX_SPDIF
-            │
-            └── C9 10nF/50V ──●── SPDIF_AC ── U3.3 IN+
-                               │
-                               ├── R2 2.2kΩ ── VREF
-                               │
-                               └── TP6 SPDIF_AC
+<pre class="wiring"><code>J1  KH-BNC75-3511
+┌────────────┐
+│ 1 CENTER   ├──── <span class="n">[COAX_SPDIF]</span>
+│ 2 SHIELD   ├──── GND
+└────────────┘
 
-J1 SHIELD ── GND</code></pre>
+<span class="n">[COAX_SPDIF]</span> ──┬── R1   75Ω 1% ──────────── GND           <span class="c">← 75Ω 종단, 커넥터 바로 옆</span>
+               ├── TP5
+               └── C9   10nF/50V X7R ────── <span class="n">[SPDIF_AC]</span>    <span class="c">← 직렬 AC coupling, FIT</span>
+
+<span class="n">[SPDIF_AC]</span> ──┬── U3 pin 3 (IN+)
+             ├── R2   2.2kΩ 1% ── <span class="n">[VREF]</span>
+             ├── TP6
+             └── R6   TBD  <span class="x">DNP</span> ── <span class="n">[CMP_OUT]</span>                <span class="c">← 선택 사항, 0Ω 금지</span></code></pre>
           <p>R1은 75Ω 종단입니다. C9는 직렬 AC coupling이며 DNP가 아니라 FIT입니다.</p>
         </div>
       </details>
@@ -493,30 +493,23 @@ J1 SHIELD ── GND</code></pre>
       <details open>
         <summary>3.2 VREF와 U3 TLV3601-Q1</summary>
         <div class="detail-body">
-<pre><code>                         R3 2.2kΩ
-+3V3 ────────────────────\/\/\/──┐
-                                  │
-                                  ●── VREF
-                                  │
-                         R4 2.2kΩ │
-                    GND ─────────\/\/\/── VREF
-                                  │
-                                  ├── C10 1µF/16V ── GND
-                                  │
-                                  ├── R2 2.2kΩ ── SPDIF_AC
-                                  │
-                                  └── U3.4 IN−
+<pre class="wiring"><code><span class="n">[+3.3V]</span> ── R3   2.2kΩ 1% ──┐
+                           ├──── <span class="n">[VREF]</span>          <span class="c">← 공칭 1.65V</span>
+    GND ── R4   2.2kΩ 1% ──┘
 
-                         U3 TLV3601QDBVRQ1
-SPDIF_AC ───────────────── pin 3 IN+
-VREF ───────────────────── pin 4 IN−
-+3V3 ───────────────────── pin 5 VCC
-GND ────────────────────── pin 2 VEE/GND
-CMP_OUT ────────────────── pin 1 OUT
+<span class="n">[VREF]</span> ──┬── C10  1µF/16V X7R ── GND
+         ├── R2   2.2kΩ 1% ── <span class="n">[SPDIF_AC]</span>
+         └── U3 pin 4 (IN−)
 
-+3V3 ──●────────────── U3.5 VCC
-       │
-       └── C7 100nF/16V X7R ── GND          ← U3 바로 옆</code></pre>
+U3  TLV3601QDBVRQ1 (SOT-23-5)
+             ┌───────────────────┐
+<span class="n">[SPDIF_AC]</span> ──┤3 IN+        OUT 1 ├──── <span class="n">[CMP_OUT]</span>
+    <span class="n">[VREF]</span> ──┤4 IN−              │
+   <span class="n">[+3.3V]</span> ──┤5 VCC              │
+       GND ──┤2 VEE              │
+             └───────────────────┘
+
+<span class="n">[+3.3V]</span> ──── C7   100nF/16V X7R ── GND         <span class="c">← U3 5번 핀 바로 옆</span></code></pre>
           <p>VREF는 공칭 1.65V입니다. AC coupling과 mid-supply bias는 대안이 아니라 함께 사용하는 구성입니다. 입력 부재 감지 회로나 추가 threshold offset을 넣지 않습니다.</p>
         </div>
       </details>
@@ -524,13 +517,10 @@ CMP_OUT ────────────────── pin 1 OUT
       <details open>
         <summary>3.3 U3 출력 → U4 DI</summary>
         <div class="detail-body">
-<pre><code>U3.1 OUT ── CMP_OUT ── R5 0Ω ── DI ── U4.1 DI
-                          │
-                          └── 필요 시 22Ω으로 교체 가능한 위치
-
-CMP_OUT ── TP7
-DI ─────── TP8</code></pre>
-          <div class="warning">R6 R_HYS는 회로가 설계되지 않았으므로 DNP로 유지하고 U3 출력·입력 또는 VREF에 임의로 연결하지 마세요.</div>
+<pre class="wiring"><code><span class="n">[CMP_OUT]</span> ──┬── R5   0Ω (opt. 22Ω) ── <span class="n">[DI]</span> ──┬── U4 pin 1 (DI)
+            ├── TP7                          └── TP8
+            └── R6   TBD  <span class="x">DNP</span> ── <span class="n">[SPDIF_AC]</span>       <span class="c">← 선택 사항, 0Ω 금지</span></code></pre>
+          <div class="warning">R6 R_HYS는 DNP · <code>TBD</code>. 그린다면 <code>CMP_OUT ↔ SPDIF_AC</code>에만 연결하고 VREF 등 다른 노드에는 연결하지 마세요. 0Ω 실장 금지.</div>
         </div>
       </details>
     </section>
@@ -540,21 +530,18 @@ DI ─────── TP8</code></pre>
       <details open>
         <summary>4.1 U4 전원과 DE</summary>
         <div class="detail-body">
-<pre><code>                         U4 MAX3295AUT+T
-DI ────────────────────── pin 1 DI
-+3V3 ───────────────────── pin 2 VCC
-+3V3 ── R16 0Ω ── DE ───── pin 3 DE
-Z_RAW ──────────────────── pin 4 Z
-GND ────────────────────── pin 5 GND
-Y_RAW ──────────────────── pin 6 Y
+<pre class="wiring"><code>U4  MAX3295AUT+T (SOT-23-6)
+            ┌───────────────────┐
+     <span class="n">[DI]</span> ──┤1 DI           Y 6 ├──── <span class="n">[Y_RAW]</span>
+  <span class="n">[+3.3V]</span> ──┤2 VCC          Z 4 ├──── <span class="n">[Z_RAW]</span>
+     <span class="n">[DE]</span> ──┤3 DE               │
+      GND ──┤5 GND              │
+            └───────────────────┘
 
-+3V3 ──●────────────── U4.2 VCC
-       │
-       └── C8 100nF/16V X7R ── GND          ← U4 바로 옆
-
-DE ──── TP9
-Y_RAW ─ TP10
-Z_RAW ─ TP11</code></pre>
+<span class="n">[+3.3V]</span> ──── R16  0Ω ── <span class="n">[DE]</span> ── TP9            <span class="c">← DE 항상 High, RC 지연 금지</span>
+<span class="n">[+3.3V]</span> ──── C8   100nF/16V X7R ── GND         <span class="c">← U4 2번 핀 바로 옆</span>
+<span class="n">[Y_RAW]</span> ──── TP10
+<span class="n">[Z_RAW]</span> ──── TP11</code></pre>
           <p>초기 Rev.1은 DE를 R16 0Ω을 통해 항상 HIGH로 둡니다. 임의의 RC delayed-enable 회로를 추가하지 않습니다.</p>
         </div>
       </details>
@@ -562,15 +549,11 @@ Z_RAW ─ TP11</code></pre>
       <details open>
         <summary>4.2 120Ω 직렬저항과 극성 선택 매트릭스</summary>
         <div class="detail-body">
-<pre><code>                         R7 120Ω
-U4.6 Y ── Y_RAW ─────────\/\/\/──┬── R10 0Ω FIT ── PAIR_P
-                                 │
-                                 └── R12 0Ω DNP ── PAIR_N
+<pre class="wiring"><code><span class="n">[Y_RAW]</span> ── R7   120Ω 1% ──┬── R10  0Ω  <span class="f">FIT</span> ── <span class="n">[PAIR_P]</span>
+                          └── R12  0Ω  <span class="x">DNP</span> ── <span class="n">[PAIR_N]</span>
 
-                         R8 120Ω
-U4.4 Z ── Z_RAW ─────────\/\/\/──┬── R13 0Ω DNP ── PAIR_P
-                                 │
-                                 └── R11 0Ω FIT ── PAIR_N</code></pre>
+<span class="n">[Z_RAW]</span> ── R8   120Ω 1% ──┬── R13  0Ω  <span class="x">DNP</span> ── <span class="n">[PAIR_P]</span>
+                          └── R11  0Ω  <span class="f">FIT</span> ── <span class="n">[PAIR_N]</span></code></pre>
           <div class="table-wrap"><table>
             <thead><tr><th>설정</th><th>FIT</th><th>DNP</th><th>결과</th></tr></thead>
             <tbody>
@@ -586,20 +569,21 @@ U4.4 Z ── Z_RAW ─────────\/\/\/──┬── R13 0Ω DNP
     <section class="card" id="output">
       <h2>5. CMC·출력 종단·EMC·J2</h2>
       <details open>
-        <summary>5.1 L1 CMC와 우회 점퍼</summary>
+        <summary>5.1 FL1 CMC와 우회 점퍼</summary>
         <div class="detail-body">
-<pre><code>PAIR_P ── L1 CH1 입력
-                L1 CH1 출력 ──●── SPDIF_P
-                               │
-PAIR_N ── L1 CH2 입력          │
-                L1 CH2 출력 ──●── SPDIF_N
+<pre class="wiring"><code>FL1  ACM2012-900-2P-T001
+            ┌─────────────────────┐
+<span class="n">[PAIR_P]</span> ───┤1 ═══ Line 1 ═══   4 ├─── <span class="n">[SPDIF_P]</span>
+<span class="n">[PAIR_N]</span> ───┤2 ═══ Line 2 ═══   3 ├─── <span class="n">[SPDIF_N]</span>
+            └─────────────────────┘
 
-R14 0Ω DNP: PAIR_P ↔ SPDIF_P       ← CH1 한 채널만 우회
-R15 0Ω DNP: PAIR_N ↔ SPDIF_N       ← CH2 한 채널만 우회</code></pre>
+<span class="n">[PAIR_P]</span> ──── R14  0Ω  <span class="x">DNP</span> ──── <span class="n">[SPDIF_P]</span>      <span class="c">← FL1 1↔4 우회, FL1 제거 시에만</span>
+<span class="n">[PAIR_N]</span> ──── R15  0Ω  <span class="x">DNP</span> ──── <span class="n">[SPDIF_N]</span>      <span class="c">← FL1 2↔3 우회, FL1 제거 시에만</span></code></pre>
           <ul>
-            <li>초기 상태: <strong>L1 FIT, R14/R15 DNP</strong></li>
-            <li>CMC 제거 직결 시험: <strong>L1 DNP, R14/R15 FIT</strong></li>
-            <li>L1과 우회 점퍼를 기본 병렬 연결로 함께 실장하지 않습니다.</li>
+            <li><strong>금지:</strong> FL1 <code>1↔3</code> 또는 <code>2↔4</code> 연결 → SPDIF_P/SPDIF_N 단락</li>
+            <li>초기 상태: <strong>FL1 FIT, R14/R15 DNP</strong></li>
+            <li>CMC 제거 직결 시험: <strong>FL1 DNP, R14/R15 FIT</strong></li>
+            <li>FL1과 우회 점퍼를 기본 병렬 연결로 함께 실장하지 않습니다.</li>
             <li>두 채널을 잘못 연결해 SPDIF_P와 SPDIF_N을 단락시키지 않도록 실제 권선·패드 매핑을 확인합니다.</li>
           </ul>
         </div>
@@ -608,17 +592,18 @@ R15 0Ω DNP: PAIR_N ↔ SPDIF_N       ← CH2 한 채널만 우회</code></pre>
       <details open>
         <summary>5.2 출력 종단·EMC 커패시터·J2</summary>
         <div class="detail-body">
-<pre><code>                         R9 56Ω FIT
-SPDIF_P ────────────────\/\/\/──────────────── SPDIF_N
+<pre class="wiring"><code><span class="n">[SPDIF_P]</span> ── R9   56Ω 1%  <span class="f">FIT</span> ── <span class="n">[SPDIF_N]</span>     <span class="c">← FL1 뒤, 커넥터 쪽</span>
+<span class="n">[PAIR_P]</span>  ── C11  TBD  <span class="x">DNP</span> ────── <span class="n">[PAIR_N]</span>
+<span class="n">[SPDIF_P]</span> ── C12  TBD  <span class="x">DNP</span> ────── <span class="n">[SPDIF_N]</span>
+<span class="n">[SPDIF_P]</span> ── C13  TBD  <span class="x">DNP</span> ────── GND
+<span class="n">[SPDIF_N]</span> ── C14  TBD  <span class="x">DNP</span> ────── GND
 
-C11 TBD DNP: PAIR_P ↔ PAIR_N          ← Pre-CMC 차동 분기
-C12 TBD DNP: SPDIF_P ↔ SPDIF_N        ← Post-CMC 차동 분기
-C13 TBD DNP: SPDIF_P ↔ GND
-C14 TBD DNP: SPDIF_N ↔ GND
-
-SPDIF_P ── TP12 ── J2 SPDIF+
-SPDIF_N ── TP13 ── J2 SPDIF−
-GND ────────────── J2 GND</code></pre>
+J2  3-pin XH                               <span class="c">← 결정 로그 #15: 이름 순서, GND 마지막</span>
+┌────────────┐
+│ 1  SPDIF+  ├──── <span class="n">[SPDIF_P]</span> ── TP12     <span class="c">← 꼬임쌍</span>
+│ 2  SPDIF−  ├──── <span class="n">[SPDIF_N]</span> ── TP13     <span class="c">← 꼬임쌍</span>
+│ 3  GND     ├──── GND                   <span class="c">← 검정</span>
+└────────────┘</code></pre>
           <p>R9는 CMC 뒤 AMP 쪽 차동선 사이의 FIT 부품입니다. C11~C14는 모두 병렬 분기이므로 DNP여도 신호 경로는 유지됩니다.</p>
         </div>
       </details>
@@ -626,31 +611,18 @@ GND ────────────── J2 GND</code></pre>
       <details open>
         <summary>5.3 전체 신호·전원 흐름 요약</summary>
         <div class="detail-body">
-<pre><code>J3 ACC/GND
-   │
-  F1 → D1 → VIN_PROTECTED
-              │
-              ├── D2, C1, C2 → GND
-              │
-             U1 TSR 1-2450 → +5V
-                              │
-                              ├── C3 → GND
-                              │
-                             U2 TPS7B8333 → +3V3
-                                             │
-                                             ├── C4: +5V 입력측
-                                             ├── C5+C6: +3V3 출력측
-                                             │
-J1 COAX → R1 75Ω 종단 → C9 → U3 TLV3601 ── R5 ── U4 MAX3295
-                            ▲                              │
-                            └── VREF: R2/R3/R4/C10         │
-                                                           ├─ Y → R7 → 극성 선택 → L1 CH1 → SPDIF_P
-                                                           └─ Z → R8 → 극성 선택 → L1 CH2 → SPDIF_N
+<pre class="wiring"><code>전원
+<span class="n">[ACC_IN]</span> → F1 → <span class="n">[ACC_FUSED]</span> → D1 → <span class="n">[VIN_PROTECTED]</span> → U1 → <span class="n">[+5V]</span> → U2 → <span class="n">[+3.3V]</span>
+                 └ D2 → GND           └ C1 · C2 → GND
 
-SPDIF_P ↔ SPDIF_N: R9 56Ω FIT + C12 DNP
-PAIR_P ↔ PAIR_N: C11 DNP
-SPDIF_P/N ↔ GND: C13/C14 DNP
-최종 출력: J2 SPDIF+ / SPDIF− / GND</code></pre>
+입력
+J1 → <span class="n">[COAX_SPDIF]</span> → C9 → <span class="n">[SPDIF_AC]</span> → U3 IN+ → <span class="n">[CMP_OUT]</span> → R5 → <span class="n">[DI]</span> → U4
+      └ R1 75Ω → GND    └ R2 → <span class="n">[VREF]</span> = U3 IN−  (R3 · R4 · C10)
+
+출력
+U4 Y → <span class="n">[Y_RAW]</span> → R7 → R10 → <span class="n">[PAIR_P]</span> → FL1 1→4 → <span class="n">[SPDIF_P]</span> → J2 SPDIF+
+U4 Z → <span class="n">[Z_RAW]</span> → R8 → R11 → <span class="n">[PAIR_N]</span> → FL1 2→3 → <span class="n">[SPDIF_N]</span> → J2 SPDIF−
+                                                   R9 56Ω: SPDIF_P ↔ SPDIF_N</code></pre>
         </div>
       </details>
     </section>
@@ -664,17 +636,21 @@ SPDIF_P/N ↔ GND: C13/C14 DNP
         <li><label><input type="checkbox" id="erc-03"><span>U3: <code>1=OUT</code>, <code>2=GND</code>, <code>3=IN+</code>, <code>4=IN−</code>, <code>5=VCC</code></span></label></li>
         <li><label><input type="checkbox" id="erc-04"><span>U4: <code>1=DI</code>, <code>2=VCC</code>, <code>3=DE</code>, <code>4=Z</code>, <code>5=GND</code>, <code>6=Y</code></span></label></li>
         <li><label><input type="checkbox" id="erc-05"><span>D1: <code>A=ACC_FUSED</code>, <code>K=VIN_PROTECTED</code></span></label></li>
-        <li><label><input type="checkbox" id="erc-06"><span>D2, C1, C2는 전원과 GND 사이 병렬 연결</span></label></li>
+        <li><label><input type="checkbox" id="erc-06"><span>D2는 <code>ACC_FUSED ↔ GND</code>(D1 앞), C1·C2는 <code>VIN_PROTECTED ↔ GND</code>(D1 뒤) 병렬</span></label></li>
         <li><label><input type="checkbox" id="erc-07"><span>C1 전해커패시터 극성 확인</span></label></li>
         <li><label><input type="checkbox" id="erc-08"><span>C7/C8은 U3/U4 전원 핀 바로 옆에 배치</span></label></li>
         <li><label><input type="checkbox" id="erc-09"><span>R1 75Ω은 BNC 입력에서 GND로 종단</span></label></li>
         <li><label><input type="checkbox" id="erc-10"><span>VREF는 R3/R4로 생성하고 R2/C10/U3 IN−에 연결</span></label></li>
-        <li><label><input type="checkbox" id="erc-11"><span>R6은 DNP이며 임의의 hysteresis 배선이 없음</span></label></li>
+        <li><label><input type="checkbox" id="erc-11"><span>R6은 DNP·TBD이며, 연결했다면 <code>CMP_OUT ↔ SPDIF_AC</code>뿐 (0Ω 아님)</span></label></li>
         <li><label><input type="checkbox" id="erc-12"><span>기본 극성은 R10/R11만 FIT, R12/R13은 DNP</span></label></li>
-        <li><label><input type="checkbox" id="erc-13"><span>L1 FIT 시 R14/R15는 DNP</span></label></li>
+        <li><label><input type="checkbox" id="erc-13"><span>FL1 FIT 시 R14/R15는 DNP. R14 = FL1 1↔4, R15 = FL1 2↔3</span></label></li>
         <li><label><input type="checkbox" id="erc-14"><span>R9 56Ω은 CMC 뒤 SPDIF_P ↔ SPDIF_N에 FIT</span></label></li>
         <li><label><input type="checkbox" id="erc-15"><span>C11~C14는 모두 DNP</span></label></li>
-        <li><label><input type="checkbox" id="erc-16"><span>J2/J3 및 L1의 물리 핀 번호는 실제 부품 도면으로 별도 확인</span></label></li>
+        <li><label><input type="checkbox" id="erc-16"><span>J3 <code>1=ACC_IN, 2=GND</code> · J2 <code>1=SPDIF_P, 2=SPDIF_N, 3=GND</code> (GND 마지막)</span></label></li>
+        <li><label><input type="checkbox" id="erc-17"><span>D1 <code>Device:D</code>: 1=K → VIN_PROTECTED, 2=A → ACC_FUSED</span></label></li>
+        <li><label><input type="checkbox" id="erc-18"><span>F1 <code>1_1+1_2</code> 묶음, <code>2_1+2_2</code> 묶음</span></label></li>
+        <li><label><input type="checkbox" id="erc-19"><span><code>PWR_FLAG</code>: <code>VIN_PROTECTED</code>, <code>+3.3V</code>(U2 OUT 핀 타입이 output), 필요 시 <code>GND</code></span></label></li>
+        <li><label><input type="checkbox" id="erc-20"><span>ERC 후 넷리스트로 핀 단위 대조 (겹친 라벨 단락은 ERC 경고로만 나올 수 있음)</span></label></li>
       </ul>
     </section>
 
@@ -687,7 +663,7 @@ SPDIF_P/N ↔ GND: C13/C14 DNP
         <li>D1/D2의 리드 성형 간격과 패드 간격</li>
         <li>U1 TRACO 모듈의 방향, 높이, 핀 간격</li>
         <li>J1 BNC와 FH1 퓨즈홀더의 실제 패드 번호·기구 치수</li>
-        <li>L1 CMC의 land pattern과 권선 채널 매핑</li>
+        <li>FL1 CMC land pattern 실물 대조 (풋프린트·권선 매핑은 결정 로그 #2·#3에서 확정)</li>
         <li>케이스 납입, 커넥터 방향, 테스트포인트 접근성</li>
       </ol>
       <div class="warning">이 항목들은 회로도 작업을 막지 않지만 <strong>PCB 풋프린트 lock과 제조 전에는 반드시 해결</strong>해야 합니다.</div>

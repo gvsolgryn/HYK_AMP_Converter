@@ -1,20 +1,21 @@
 # AGENTS.md — AI 에이전트 작업 지침
 
-이 파일은 이 저장소에서 작업하는 AI 에이전트(OpenCode, Claude Code 등)를 위한 지침입니다.
+이 파일은 이 저장소에서 작업하는 AI 에이전트(Claude Code 등)를 위한 지침입니다.
 
 ## 프로젝트 개요
 
 - **DUDU7 Android 헤드유닛의 RCA Coaxial S/PDIF 출력 → Hyundai i40 순정 AMP(`96370-3Z101`) 차동 SPDIF 입력** 변환기
 - 물리계층 어댑터: S/PDIF 프로토콜 디코딩 없이 75Ω 동축 신호를 정형해 차동 신호로 변환
 - 차량 전원: **ACC 12V만 사용, 상시 B+ 금지** (IBS 배터리 센서 학습 보호)
-- 외함: 기성 알루미늄 케이스(Hammond 1455C1201BK 후보), 2-layer PCB, 부품 전부 Top 실장
+- 외함: **케이스포유 RT-75 (RT-7511, 75×31×110mm, 국산 알루미늄 압출, PCB 홈 1.6T)** — 결정 로그 #16. 2-layer PCB, 부품 전부 Top 실장
 
 ## 최우선 사양 문서
 
 `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
 - Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2(`docs/DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md`)의 LMR16006 Buck 회로는 **사용하지 않음**
 - 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
-- 확정 결정 기록: BOM 문서 §9 "Decision log"
+- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#17)
+- **다음 작업(PCB) 인계 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md`** — 외함 치수, J1 BNC 장착, PCB 제약, 작업 순서, 미결 항목. PCB 작업 전에 먼저 읽을 것
 
 ## 검증된 핀아웃 (Rev.1 Reference 기준, 데이터시트 원문 대조 완료)
 
@@ -36,7 +37,7 @@
 
 ## 회로 규칙 (Rev.1 요약)
 
-- 전원: ACC 12V → J3 → F1(퓨즈홀더) → D2 TVS(병렬) / D1 SB360(직렬) → C1·C2 → U1 TSR(5V) → U2 LDO(+3.3V)
+- 전원: ACC 12V → J3 → F1(퓨즈홀더) → `ACC_FUSED` [D2 TVS 병렬] → D1 SB360(직렬) → `VIN_PROTECTED` [C1·C2] → U1 TSR(5V) → U2 LDO(+3.3V). **D2는 D1 앞** (결정 로그 #14)
 - 전원 Net 이름: `+5V`, `+3.3V` (KiCad 기본 전원 심볼). TP3 Value `+3.3V_TP`는 표시용 이름일 뿐, 별도 라벨 금지
 - 출력: `U4 Y(6)→R7 120Ω→극성선택 0Ω→FL1 1→4→SPDIF+`, `U4 Z(4)→R8 120Ω→극성선택 0Ω→FL1 2→3→SPDIF−`
 - R9 56Ω 차동 병렬저항은 **CMC 뒤(FL1 3·4번 쪽) 커넥터 쪽**에 배치
@@ -65,11 +66,12 @@
 
 ## MCP 자동화 환경
 
-- `opencode.json` → `uvx kicad-mcp-pro` (현재 프로필 `full`, 모드 `experimental`, `kicad_*` 자동 허용)
-- KiCad **10.0.6** + `kicad-cli`. 회로도 IPC 없음 → MCP 회로도 쓰기는 **`.kicad_sch` 파일을 직접 덮어씀** (GUI 미저장 내용과 충돌, Ctrl+Z 불가)
-- 권장 운용: 기본 `readonly`, 쓰기 필요 시에만 `write`, 권한은 `ask`
+- 서버: [mixelpixx/KiCAD-MCP-Server](https://github.com/mixelpixx/KiCAD-MCP-Server) v2.9.0 (`~/MCP/KiCAD-MCP-Server`, stdio, `node dist/index.js`). 클라이언트 설정 파일은 저장소에 두지 않음 — 설치·등록 방법은 `README.md` "MCP 자동화" 참고
+- KiCad **10.0.8** + `kicad-cli`. 회로도 IPC 없음 → MCP 회로도 쓰기(kicad-skip)는 **`.kicad_sch` 파일을 직접 덮어씀** (GUI 미저장 내용과 충돌, Ctrl+Z 불가). v2.9.0은 회로도가 KiCad에 열려 있으면 편집을 거부함
+- **이 서버는 `KICAD_MCP_OPERATING_MODE` 미설정 시 전체 쓰기(`write`)** → 항상 `readonly`로 등록, 쓰기 필요 시에만 `write`로 바꾼 뒤 작업 후 되돌림. `manufacturing`(Gerber/BOM 출력)은 사용자 승인 전 금지
 - 회로도 쓰기 전: GUI 저장 후 회로도 편집기 닫기(`~HYK_AMP_Converter.kicad_sch.lck` 없음 확인) → `backup/`에 타임스탬프 백업 → 요청 범위만 수정 → diff 보고
-- `run_erc` 도구는 `save_report:false`여도 `output/erc_report.json`을 생성함 → `kicad-cli sch erc --output <TEMP>` 사용 권장
+- 라벨·와이어 추가 후 ERC만 믿지 말고 `generate_netlist`(또는 `kicad-cli sch export netlist`)로 **핀 단위 넷 대조** (겹친 라벨로 인한 넷 쇼트는 ERC 경고로만 나올 수 있음)
+- ERC 리포트는 `kicad-cli sch erc --output <TEMP>` 사용 권장 (프로젝트 폴더에 산출물 남기지 않기)
 
 ## 작업 규칙
 
@@ -80,9 +82,16 @@
 5. `.kicad_sch`/`.kicad_pcb`를 텍스트로 직접 수정할 경우: 사전 백업 + KiCad 10 포맷 준수
 6. 회로도 배포 전 `run_erc` 실행 및 결과 리포트
 
-## 현재 진행 상태 (2026-11-12)
+## 현재 진행 상태 (2026-11-13)
 
-- 회로도: Rev.1 부품 54개 배치 완료 (U1~U4, D1~D2, F1, FL1, J1~J3, R1~R16, C1~C14, TP1~TP13), **배선·라벨 전** (ERC 123건 = 전부 미연결)
+- 회로도: Rev.1 부품 54개 배치·**배선 완료**, 넷리스트 핀 단위 대조 일치, **ERC 0건** (PWR_FLAG: `VIN_PROTECTED` #FLG01, `GND` #FLG02)
+- 회로도 레이아웃(2026-11-13 정리): 4개 블록(1 POWER / 2 INPUT / 3 DRIVER / 4 OUTPUT, 점선 프레임) · 블록 안은 와이어, 블록 간은 **로컬 라벨**(글로벌 라벨 미사용, 넷 이름은 `/ACC_IN` 형식) · 우하단 타이틀 블록(x>177, y>166) 영역 비움
+- 커넥터 핀 배정(결정 로그 #15, "이름 순서 그대로, GND는 항상 마지막"): J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF_P, 2=SPDIF_N, 3=GND` — 하네스는 이 순서를 따름. 네모 패드 = 1번 표시일 뿐 GND 의미 아님
+- 프로젝트 심볼 핀 타입 수정(2026-11-13): U2 `TPS7B8350QDCYRQ1` IN·GND=power_in, OUT=power_out / U4 `MAX3295AUT_V+T` DI·DE=input, Y·Z=output
 - 저항 필드: Value=실제 값(몸체 안 세로 1.0mm), Description=역할 이름(R_TERM 등)
-- PCB 전 미결: C1 전해 THT 실물 MPN·풋프린트(현재 0805 임시), J2 정품 XH 확정, MLCC·저항 MPN, 케이스 기구
+- PCB: **미착수**. 외형 **69.5 × 107.0 mm**(RT-7511 홈 폭 69.7, 본체 길이 107), PCB 아래 4.5 mm·위 약 19.4 mm, Bottom 부품 금지 — 세부는 인계 문서 §3
+- J1 BNC: PCB 앞 가장자리에 두고 나사부를 앞판(1.5 mm)으로 관통해 너트 고정(결정 #17). **전용 풋프린트 제작 필요** (현재 Amphenol 50Ω 임시)
+- PCB 전 미결: J1 풋프린트, C1 전해 THT 실물 MPN·풋프린트(현재 0805 임시), J2 정품 XH 확정, MLCC·저항 MPN, 케이스 접지 정책·J1 쉴드 0Ω 옵션, 뒷판 하네스 출구, 케이스 고정 방법
+- 외함 가공(앞판 BNC 구멍, 뒷판 그로밋)·레이저 마킹·실크 인쇄는 **PCB 배치 확정 + 시제품 맞춤 확인 후** 진행. 위치 기준은 PCB의 J1 위치
+- 케이스 도면 `references/case_file/RT_7511.zip`, `RT_7590.zip`은 **로컬 전용**(케이스포유 무단복제 금지 문구 + 공개 저장소라 `.gitignore`). 치수는 인계 문서에 기록됨. PDF 렌더링은 KiCad Python의 PyMuPDF 사용
 - 미완료 검증: DUDU7 실측 전압, AMP 남부 종단/입력 레벨, F400 대비 CMC 적합성, 실차 팝노이즈(DE)·무입력 발진(R_HYS)

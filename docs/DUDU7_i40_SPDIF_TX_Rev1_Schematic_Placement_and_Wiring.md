@@ -1,7 +1,8 @@
 # DUDU7 / FYT7862 → Hyundai i40 OEM AMP S/PDIF TX Rev.1
 ## KiCad Symbol Placement and Pin Wiring Guide
 
-- 기준일: 2026-11-11
+- 기준일: 2026-11-11 (결정 로그 §9 반영 2026-11-13 — 충돌 시 BOM 문서 §9 우선)
+- 회로도 실제 이름: CMC `L1` → **`FL1`**, 3.3V 넷 `+3V3` → **`+3.3V`** (`power:+3.3V`)
 - 상위 기준 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md`
 - 용도: Rev.1 회로도 심볼 배치, 참조 번호 통일, 핀 연결 작업
 - 상태: **회로도 작업 가이드이며 제조 승인 문서가 아님**
@@ -30,9 +31,9 @@
 | **U3** | `TLV3601QDBVRQ1` | FIT | Comparator, SOT-23-5 |
 | **U4** | `MAX3295AUT+T` | FIT | 차동 드라이버, SOT-23-6 |
 | **D1** | `SB360` | FIT | 직렬 역극성 보호 Schottky |
-| **D2** | `1.5KE22CA` | FIT | 양방향 TVS, 전원–GND 병렬 |
+| **D2** | `1.5KE22CA` | FIT | 양방향 TVS, **`ACC_FUSED ↔ GND`** 병렬 (D1 앞) |
 | **F1** | `0891002.NXS`, 2A | FIT | LP Mini 블레이드 퓨즈 |
-| **L1** | `ACM2012-900-2P-T001` | FIT | 2채널 CMC, 후보 부품 |
+| **FL1** | `ACM2012-900-2P-T001` | FIT | 2채널 CMC, Line1 = 1↔4, Line2 = 2↔3 |
 | **J1** | `KH-BNC75-3511` | FIT | 75Ω BNC 입력 |
 | **J2** | 3핀 XH 계열 | FIT | `SPDIF+ / SPDIF− / GND`, 정확한 MPN 미정 |
 | **J3** | `JST B2PS-VH` | FIT | `ACC 12V / GND` 전원 입력 |
@@ -49,8 +50,8 @@
 | **C2** | 100nF / 50V X7R | FIT | `VIN_PROTECTED ↔ GND` |
 | **C3** | 10µF / 16V X7R | FIT | U1 5V 출력 `+5V ↔ GND` |
 | **C4** | 1µF / 16V X7R | FIT | U2 입력 `+5V ↔ GND` |
-| **C5** | 10µF / 16V X7R | FIT | U2 출력 `+3V3 ↔ GND` |
-| **C6** | 10µF / 16V X7R | FIT | C5와 병렬, `+3V3 ↔ GND` |
+| **C5** | 10µF / 16V X7R | FIT | U2 출력 `+3.3V ↔ GND` |
+| **C6** | 10µF / 16V X7R | FIT | C5와 병렬, `+3.3V ↔ GND` |
 | **C7** | 100nF / 16V X7R | FIT | U3 VCC 국소 디커플링 |
 | **C8** | 100nF / 16V X7R | FIT | U4 VCC 국소 디커플링 |
 | **C9** | 10nF / 50V X7R | FIT | 입력 AC coupling, 문서의 `C_AC` |
@@ -66,12 +67,12 @@
 |---|---|---|---|---|
 | **R1** | `R_TERM` | 75Ω / 1% | FIT | `COAX_SPDIF ↔ GND` |
 | **R2** | `R_BIAS` | 2.2kΩ / 1% | FIT | `SPDIF_AC ↔ VREF` |
-| **R3** | `R_REF1` | 2.2kΩ / 1% | FIT | `+3V3 ↔ VREF` |
+| **R3** | `R_REF1` | 2.2kΩ / 1% | FIT | `+3.3V ↔ VREF` |
 | **R4** | `R_REF2` | 2.2kΩ / 1% | FIT | `VREF ↔ GND` |
 | **R5** | `R_OUT` | 0Ω | FIT | U3 OUT → U4 DI, 필요 시 22Ω으로 변경 |
-| **R6** | `R_HYS` | TBD | **DNP** | 미설계 히스테리시스 자리, **임의 배선 금지** |
+| **R6** | `R_HYS` | TBD | **DNP** | `CMP_OUT ↔ SPDIF_AC` (OUT→IN+) 자리만, 값 미설계 |
 
-R6은 자리만 남길 경우 **격리된 DNP placeholder**로 둔다. 양단을 임의의 신호에 연결하지 않으며, ERC 처리를 위해 no-connect 표시가 필요할 수 있다.
+R6은 결정 로그 #8에 따라 `CMP_OUT ↔ SPDIF_AC`로 그려 둘 수 있다. **DNP · Value `TBD` 유지, 0Ω 실장 금지** (OUT–IN+ 직결 = 비교기 래치, 신호 소실). 다른 노드(VREF 등)에는 연결하지 않는다.
 
 ### 1.4 MAX3295 출력부 저항
 
@@ -86,9 +87,9 @@ R6은 자리만 남길 경우 **격리된 DNP placeholder**로 둔다. 양단을
 | **R13** | `R_POL_ZPLUS` | 0Ω | **DNP** | Z 경로 → CMC 채널1 |
 | **R14** | `R_CMC_BYPASS1` | 0Ω | **DNP** | CMC 채널1 입력↔출력 우회 |
 | **R15** | `R_CMC_BYPASS2` | 0Ω | **DNP** | CMC 채널2 입력↔출력 우회 |
-| **R16** | `R_DE` | 0Ω | FIT | `+3V3 → U4 DE(3)` |
+| **R16** | `R_DE` | 0Ω | FIT | `+3.3V → U4 DE(3)` |
 
-기본 조합은 **R10+R11만 실장**이다. R12/R13까지 함께 실장하면 차동 출력이 단락될 수 있다. R14/R15는 L1을 제거할 때만 대체 실장하는 부품이다.
+기본 조합은 **R10+R11만 실장**이다. R12/R13까지 함께 실장하면 차동 출력이 단락될 수 있다. R14/R15는 FL1을 제거할 때만 대체 실장하는 부품이다.
 
 ### 1.5 테스트포인트
 
@@ -96,7 +97,7 @@ R6은 자리만 남길 경우 **격리된 DNP placeholder**로 둔다. 양단을
 |---|---|---|
 | **TP1** | `VIN_PROTECTED` | 퓨즈·보호 이후 12V |
 | **TP2** | `+5V` | U1 5V 출력 |
-| **TP3** | `+3V3` | U2 3.3V 출력 |
+| **TP3** | `+3.3V` | U2 3.3V 출력 |
 | **TP4** | `GND` | 기준 접지 |
 | **TP5** | `COAX_SPDIF` | BNC 동축 입력 |
 | **TP6** | `SPDIF_AC` | U3 IN+ |
@@ -110,7 +111,7 @@ R6은 자리만 남길 경우 **격리된 DNP placeholder**로 둔다. 양단을
 
 ### 1.6 부품 번호가 없는 회로도 심볼
 
-- 전원 심볼: `+5V`, `+3V3`, `GND`
+- 전원 심볼: `+5V`, `+3.3V`, `GND`
 - Net 라벨: `ACC_IN`, `ACC_FUSED`, `VIN_PROTECTED`, `COAX_SPDIF`, `SPDIF_AC`, `VREF`, `CMP_OUT`, `DI`, `DE`, `Y_RAW`, `Z_RAW`, `SPDIF_P`, `SPDIF_N`
 - CMC 입력 측 보조 라벨: `PAIR_P`, `PAIR_N`
 - `PWR_FLAG`: ERC 전원 공급 오류가 나오는 위치에만 추가
@@ -134,68 +135,75 @@ DNP는 **R6, R12~R15, C11~C14**다.
 
 ### 2.1 공통 표기
 
+- `[ACC_IN]`처럼 **대괄호 = 넷 라벨**. 이름은 1.6 목록과 똑같이 쓴다. 대괄호 없는 `GND`는 전원 심볼.
+- `pin N` / 박스 안 숫자 = 심볼 핀 번호. `←` 뒤는 설명.
+- `──┬──`, `├──`, `└──` = 같은 넷에 여러 부품이 붙는 분기.
 - `A`: 다이오드 Anode
 - `K`: 다이오드 Cathode
 - `FIT`: 초기 실장
 - `DNP`: 풋프린트는 유지하되 초기 미실장
-- J1~J3의 `CENTER`, `SHIELD`, `ACC`, `GND`, `SPDIF+` 등은 **논리 핀 이름**이다. 실제 커넥터의 물리 핀 번호는 제조사 도면과 풋프린트로 별도 확인한다.
-- L1의 `CH1`, `CH2`도 논리 권선 채널이다. 물리 패드 번호를 이 그림만으로 추정하지 않는다.
+- 커넥터 핀 배정 (결정 로그 #15, 이름 순서 그대로, GND 마지막): J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF+, 2=SPDIF−, 3=GND`. 네모 패드는 1번 표시일 뿐 GND 의미가 아니다.
+- J1은 `1=In`(CENTER), `2=Ext`(SHIELD). FL1은 Line1 = 핀 1↔4, Line2 = 핀 2↔3 (TDK 데이터시트, 결정 로그 #2).
+- D1 `Device:D`는 **1=K, 2=A** (결정 로그 #11). F1은 `1_1+1_2`, `2_1+2_2`를 각각 묶어 배선한다.
 
 ### 2.2 ACC 12V 입력, 보호, 5V 모듈
 
 ```text
-                                      D1 SB360
-J3 ACC ── F1 2A ── ACC_FUSED ── A ──|>|── K ──●── VIN_PROTECTED
-                                               │
-J3 GND ────────────────────────────────────────┼────────────── GND
-                                               │
-                    ┌──────────────────────────┼──────────────────┐
-                    │                          │                  │
-                   D2                         C1                 C2
-                1.5KE22CA                   22µF/50V           100nF/50V
-               bidirectional               electrolytic           X7R
-                    │                          │                  │
-                    └──────────────────────────┴──────── GND ─────┘
+J3  JST B2PS-VH                  ← 결정 로그 #15: 이름 순서, GND 마지막
+┌─────────┐
+│ 1  ACC  ├──── [ACC_IN]          ← 빨강
+│ 2  GND  ├──── GND               ← 검정
+└─────────┘
 
-C1은 극성 부품: `+ → VIN_PROTECTED`, `− → GND`
-D2는 `VIN_PROTECTED ↔ GND` 사이 병렬 TVS다. 직렬로 넣지 않는다.
+F1  0891002.NXS 2A  (홀더 Keystone 3557-2, 1_1+1_2 / 2_1+2_2 각각 묶음)
+              ┌───────────┐
+[ACC_IN] ──┬──┤1_1     2_1├──┬── [ACC_FUSED]
+           └──┤1_2     2_2├──┘
+              └───────────┘
 
-                         U1 TSR 1-2450
-VIN_PROTECTED ─────────── pin 1 +VIN
-GND ───────────────────── pin 2 GND
-+5V ───────────────────── pin 3 +VOUT
+[ACC_FUSED] ──┬── D2   1.5KE22CA bidirectional ── GND   ← D1 앞, 음(−) 서지에서 D1 보호
+              └── D1 pin 2 (A)
 
-+5V ──●────────────────────────────────────────────── 다음 U2 입력으로
-      │
-      ├── C3 10µF/16V X7R ── GND
-      │
-      └── TP2 +5V
+D1  SB360  (Device:D → 1 = K, 2 = A)
+[ACC_FUSED] ──── 2 A ──|>|── K 1 ──── [VIN_PROTECTED]
 
-VIN_PROTECTED ── TP1
-GND ──────────── TP4
+[VIN_PROTECTED] ──┬── C1   22µF/50V  (+) ────── (−) ── GND
+                  ├── C2   100nF/50V X7R ──────────── GND
+                  ├── TP1
+                  └── U1 pin 1 (+VIN)
+
+U1  TRACO TSR 1-2450 (SIP-3)
+                   ┌────────────────────┐
+[VIN_PROTECTED] ───┤1 +VIN              │
+            GND ───┤2 GND       +VOUT 3 ├─── [+5V]
+                   └────────────────────┘
+
+[+5V] ──┬── C3   10µF/16V X7R ── GND
+        ├── TP2
+        └── U2 pin 1 (IN)
+
+GND ──── TP4
 ```
+
+- C1은 극성 부품: `+` → `VIN_PROTECTED`, `−` → `GND`.
+- D2는 **`ACC_FUSED ↔ GND`** 병렬 TVS다. 직렬로 넣지 않는다.
+- **D2 위치 확정 (결정 로그 #14)**: D1 앞. 양방향 TVS가 음(−) 서지를 약 −30V로 클램프해 D1(SB360, 역내압 60V)과 C1·U1을 보호한다. 역결선(−12V)에서는 TVS가 도통하지 않고 D1이 차단한다.
 
 ### 2.3 U2 — 3.3V LDO
 
 ```text
-                              U2 TPS7B8333QDCYRQ1
-+5V ────────────────────────── pin 1 IN
-GND ────────────────────────── pin 2 GND
-+3V3 ───────────────────────── pin 3 OUT
-GND ────────────────────────── pin 4 TAB = GND
+U2  TPS7B8333QDCYRQ1 (SOT-223 DCY)
+          ┌───────────────────┐
+[+5V] ────┤1 IN         OUT 3 ├──── [+3.3V]
+  GND ────┤2 GND              │
+  GND ────┤4 TAB = GND        │      ← 4번(TAB)은 GND. OUT에 연결 금지
+          └───────────────────┘
 
-+5V ──●────────────── U2.1 IN
-      │
-      └── C4 1µF/16V X7R ── GND
+[+5V] ──── C4   1µF/16V X7R ── GND            ← U2 1번 핀 가까이
 
-U2.3 OUT ──●── +3V3
-           │
-           ├── C5 10µF/16V X7R ── GND
-           ├── C6 10µF/16V X7R ── GND     ← C5와 병렬
-           └── TP3 +3V3
-
-U2.2 GND ── GND
-U2.4 TAB ── GND                              ← OUT에 연결 금지
+[+3.3V] ──┬── C5   10µF/16V X7R ── GND
+          ├── C6   10µF/16V X7R ── GND        ← C5와 병렬
+          └── TP3  (Value +3.3V_TP)
 ```
 
 C5/C6은 모두 FIT다. MLCC의 DC bias 이후 실효 용량이 LDO의 최소 안정 조건을 만족하는지 부품 선정 시 확인한다.
@@ -203,19 +211,20 @@ C5/C6은 모두 FIT다. MLCC의 DC bias 이후 실효 용량이 LDO의 최소 �
 ### 2.4 J1 — 75Ω 동축 입력과 AC coupling
 
 ```text
-J1 CENTER ──●── COAX_SPDIF
-            │
-            ├── R1 75Ω ── GND
-            │
-            ├── TP5 COAX_SPDIF
-            │
-            └── C9 10nF/50V ──●── SPDIF_AC ── U3.3 IN+
-                               │
-                               ├── R2 2.2kΩ ── VREF
-                               │
-                               └── TP6 SPDIF_AC
+J1  KH-BNC75-3511
+┌────────────┐
+│ 1 CENTER   ├──── [COAX_SPDIF]
+│ 2 SHIELD   ├──── GND
+└────────────┘
 
-J1 SHIELD ── GND
+[COAX_SPDIF] ──┬── R1   75Ω 1% ──────────── GND           ← 75Ω 종단, 커넥터 바로 옆
+               ├── TP5
+               └── C9   10nF/50V X7R ────── [SPDIF_AC]    ← 직렬 AC coupling, FIT
+
+[SPDIF_AC] ──┬── U3 pin 3 (IN+)
+             ├── R2   2.2kΩ 1% ── [VREF]
+             ├── TP6
+             └── R6   TBD  DNP ── [CMP_OUT]                ← 선택 사항, 0Ω 금지
 ```
 
 R1은 동축 입력의 75Ω 종단이다. C9는 직렬 AC coupling이며, C9를 DNP로 두면 신호 경로가 끊어지므로 초기 실장 대상이다.
@@ -223,30 +232,23 @@ R1은 동축 입력의 75Ω 종단이다. C9는 직렬 AC coupling이며, C9를 
 ### 2.5 VREF와 U3 TLV3601-Q1
 
 ```text
-                         R3 2.2kΩ
-+3V3 ────────────────────\/\/\/──┐
-                                  │
-                                  ●── VREF
-                                  │
-                         R4 2.2kΩ │
-                    GND ─────────\/\/\/── VREF
-                                  │
-                                  ├── C10 1µF/16V ── GND
-                                  │
-                                  ├── R2 2.2kΩ ── SPDIF_AC
-                                  │
-                                  └── U3.4 IN−
+[+3.3V] ── R3   2.2kΩ 1% ──┐
+                           ├──── [VREF]          ← 공칭 1.65V
+    GND ── R4   2.2kΩ 1% ──┘
 
-                         U3 TLV3601QDBVRQ1
-SPDIF_AC ───────────────── pin 3 IN+
-VREF ───────────────────── pin 4 IN−
-+3V3 ───────────────────── pin 5 VCC
-GND ────────────────────── pin 2 VEE/GND
-CMP_OUT ────────────────── pin 1 OUT
+[VREF] ──┬── C10  1µF/16V X7R ── GND
+         ├── R2   2.2kΩ 1% ── [SPDIF_AC]
+         └── U3 pin 4 (IN−)
 
-+3V3 ──●────────────── U3.5 VCC
-       │
-       └── C7 100nF/16V X7R ── GND          ← U3 바로 옆
+U3  TLV3601QDBVRQ1 (SOT-23-5)
+             ┌───────────────────┐
+[SPDIF_AC] ──┤3 IN+        OUT 1 ├──── [CMP_OUT]
+    [VREF] ──┤4 IN−              │
+   [+3.3V] ──┤5 VCC              │
+       GND ──┤2 VEE              │
+             └───────────────────┘
+
+[+3.3V] ──── C7   100nF/16V X7R ── GND         ← U3 5번 핀 바로 옆
 ```
 
 VREF는 공칭 1.65V다. AC coupling과 mid-supply bias는 대안이 아니라 **함께 사용하는 구성**이다. 입력 부재 감지 회로나 추가 threshold offset을 넣지 않는다.
@@ -254,34 +256,28 @@ VREF는 공칭 1.65V다. AC coupling과 mid-supply bias는 대안이 아니라 *
 ### 2.6 U3 출력 → U4 DI
 
 ```text
-U3.1 OUT ── CMP_OUT ── R5 0Ω ── DI ── U4.1 DI
-                          │
-                          └── 필요 시 22Ω으로 교체 가능한 위치
-
-CMP_OUT ── TP7
-DI ─────── TP8
+[CMP_OUT] ──┬── R5   0Ω (opt. 22Ω) ── [DI] ──┬── U4 pin 1 (DI)
+            ├── TP7                          └── TP8
+            └── R6   TBD  DNP ── [SPDIF_AC]       ← 선택 사항, 0Ω 금지
 ```
 
-R6 `R_HYS`는 회로가 설계되지 않았으므로 DNP로 유지하고, U3 출력·입력 또는 VREF에 임의로 연결하지 않는다.
+R6 `R_HYS`는 DNP · `TBD`. 그린다면 `CMP_OUT ↔ SPDIF_AC`에만 연결하고, 0Ω으로 실장하지 않는다.
 
 ### 2.7 U4 MAX3295 전원과 Enable
 
 ```text
-                         U4 MAX3295AUT+T
-DI ────────────────────── pin 1 DI
-+3V3 ───────────────────── pin 2 VCC
-+3V3 ── R16 0Ω ── DE ───── pin 3 DE
-Z_RAW ──────────────────── pin 4 Z
-GND ────────────────────── pin 5 GND
-Y_RAW ──────────────────── pin 6 Y
+U4  MAX3295AUT+T (SOT-23-6)
+            ┌───────────────────┐
+     [DI] ──┤1 DI           Y 6 ├──── [Y_RAW]
+  [+3.3V] ──┤2 VCC          Z 4 ├──── [Z_RAW]
+     [DE] ──┤3 DE               │
+      GND ──┤5 GND              │
+            └───────────────────┘
 
-+3V3 ──●────────────── U4.2 VCC
-       │
-       └── C8 100nF/16V X7R ── GND          ← U4 바로 옆
-
-DE ──── TP9
-Y_RAW ─ TP10
-Z_RAW ─ TP11
+[+3.3V] ──── R16  0Ω ── [DE] ── TP9            ← DE 항상 High, RC 지연 금지
+[+3.3V] ──── C8   100nF/16V X7R ── GND         ← U4 2번 핀 바로 옆
+[Y_RAW] ──── TP10
+[Z_RAW] ──── TP11
 ```
 
 초기 Rev.1은 DE를 R16 0Ω을 통해 항상 HIGH로 둔다. 임의의 RC delayed-enable 회로를 추가하지 않는다.
@@ -289,15 +285,11 @@ Z_RAW ─ TP11
 ### 2.8 120Ω 직렬저항과 극성 선택 매트릭스
 
 ```text
-                         R7 120Ω
-U4.6 Y ── Y_RAW ─────────\/\/\/──┬── R10 0Ω FIT ── PAIR_P
-                                 │
-                                 └── R12 0Ω DNP ── PAIR_N
+[Y_RAW] ── R7   120Ω 1% ──┬── R10  0Ω  FIT ── [PAIR_P]
+                          └── R12  0Ω  DNP ── [PAIR_N]
 
-                         R8 120Ω
-U4.4 Z ── Z_RAW ─────────\/\/\/──┬── R13 0Ω DNP ── PAIR_P
-                                 │
-                                 └── R11 0Ω FIT ── PAIR_N
+[Z_RAW] ── R8   120Ω 1% ──┬── R13  0Ω  DNP ── [PAIR_P]
+                          └── R11  0Ω  FIT ── [PAIR_N]
 ```
 
 | 설정 | FIT | DNP | 결과 |
@@ -307,38 +299,40 @@ U4.4 Z ── Z_RAW ─────────\/\/\/──┬── R13 0Ω DNP
 
 **R10~R13을 모두 실장하면 안 된다.** 극성 변경은 ACC OFF 상태에서 수행한다.
 
-### 2.9 L1 CMC와 우회 점퍼
+### 2.9 FL1 CMC와 우회 점퍼
 
 ```text
-PAIR_P ── L1 CH1 입력
-                L1 CH1 출력 ──●── SPDIF_P
-                               │
-PAIR_N ── L1 CH2 입력          │
-                L1 CH2 출력 ──●── SPDIF_N
+FL1  ACM2012-900-2P-T001
+            ┌─────────────────────┐
+[PAIR_P] ───┤1 ═══ Line 1 ═══   4 ├─── [SPDIF_P]
+[PAIR_N] ───┤2 ═══ Line 2 ═══   3 ├─── [SPDIF_N]
+            └─────────────────────┘
 
-R14 0Ω DNP: PAIR_P ↔ SPDIF_P       ← CH1 한 채널만 우회
-R15 0Ω DNP: PAIR_N ↔ SPDIF_N       ← CH2 한 채널만 우회
+[PAIR_P] ──── R14  0Ω  DNP ──── [SPDIF_P]      ← FL1 1↔4 우회, FL1 제거 시에만
+[PAIR_N] ──── R15  0Ω  DNP ──── [SPDIF_N]      ← FL1 2↔3 우회, FL1 제거 시에만
 ```
 
-- 초기 상태: **L1 FIT, R14/R15 DNP**
-- CMC를 제거하고 직결하려는 시험 상태: **L1 DNP, R14/R15 FIT**
-- L1과 우회 점퍼를 기본 병렬 연결로 함께 실장하지 않는다.
+- 금지: FL1 `1↔3` 또는 `2↔4` 연결 → `SPDIF_P`/`SPDIF_N` 단락
+- 초기 상태: **FL1 FIT, R14/R15 DNP**
+- CMC를 제거하고 직결하려는 시험 상태: **FL1 DNP, R14/R15 FIT**
+- FL1과 우회 점퍼를 기본 병렬 연결로 함께 실장하지 않는다.
 - CMC의 두 채널을 잘못 연결해 `SPDIF_P`와 `SPDIF_N`을 단락시키지 않도록 실제 권선·패드 매핑을 확인한다.
 
 ### 2.10 출력 종단, EMC 커패시터, J2
 
 ```text
-                         R9 56Ω FIT
-SPDIF_P ────────────────\/\/\/──────────────── SPDIF_N
+[SPDIF_P] ── R9   56Ω 1%  FIT ── [SPDIF_N]     ← FL1 뒤, 커넥터 쪽
+[PAIR_P]  ── C11  TBD  DNP ────── [PAIR_N]
+[SPDIF_P] ── C12  TBD  DNP ────── [SPDIF_N]
+[SPDIF_P] ── C13  TBD  DNP ────── GND
+[SPDIF_N] ── C14  TBD  DNP ────── GND
 
-C11 TBD DNP: PAIR_P ↔ PAIR_N          ← Pre-CMC 차동 분기
-C12 TBD DNP: SPDIF_P ↔ SPDIF_N        ← Post-CMC 차동 분기
-C13 TBD DNP: SPDIF_P ↔ GND
-C14 TBD DNP: SPDIF_N ↔ GND
-
-SPDIF_P ── TP12 ── J2 SPDIF+
-SPDIF_N ── TP13 ── J2 SPDIF−
-GND ────────────── J2 GND
+J2  3-pin XH                               ← 결정 로그 #15: 이름 순서, GND 마지막
+┌────────────┐
+│ 1  SPDIF+  ├──── [SPDIF_P] ── TP12     ← 꼬임쌍
+│ 2  SPDIF−  ├──── [SPDIF_N] ── TP13     ← 꼬임쌍
+│ 3  GND     ├──── GND                   ← 검정
+└────────────┘
 ```
 
 R9는 CMC 뒤 AMP 쪽 차동선 사이의 FIT 부품이다. C11~C14는 모두 병렬 분기이므로 DNP여도 신호 경로는 유지된다.
@@ -348,31 +342,18 @@ R9는 CMC 뒤 AMP 쪽 차동선 사이의 FIT 부품이다. C11~C14는 모두 �
 ## 3. 최종 연결 요약
 
 ```text
-J3 ACC/GND
-   │
-  F1 → D1 → VIN_PROTECTED
-              │
-              ├── D2, C1, C2 → GND
-              │
-             U1 TSR 1-2450 → +5V
-                              │
-                              ├── C3 → GND
-                              │
-                             U2 TPS7B8333 → +3V3
-                                             │
-                                             ├── C4: +5V 입력측
-                                             ├── C5+C6: +3V3 출력측
-                                             │
-J1 COAX → R1 75Ω 종단 → C9 → U3 TLV3601 ── R5 ── U4 MAX3295
-                            ▲                              │
-                            └── VREF: R2/R3/R4/C10         │
-                                                           ├─ Y → R7 → 극성 선택 → L1 CH1 → SPDIF_P
-                                                           └─ Z → R8 → 극성 선택 → L1 CH2 → SPDIF_N
+전원
+[ACC_IN] → F1 → [ACC_FUSED] → D1 → [VIN_PROTECTED] → U1 → [+5V] → U2 → [+3.3V]
+                 └ D2 → GND           └ C1 · C2 → GND
 
-SPDIF_P ↔ SPDIF_N: R9 56Ω FIT + C12 DNP
-PAIR_P ↔ PAIR_N: C11 DNP
-SPDIF_P/N ↔ GND: C13/C14 DNP
-최종 출력: J2 SPDIF+ / SPDIF− / GND
+입력
+J1 → [COAX_SPDIF] → C9 → [SPDIF_AC] → U3 IN+ → [CMP_OUT] → R5 → [DI] → U4
+      └ R1 75Ω → GND    └ R2 → [VREF] = U3 IN−  (R3 · R4 · C10)
+
+출력
+U4 Y → [Y_RAW] → R7 → R10 → [PAIR_P] → FL1 1→4 → [SPDIF_P] → J2 SPDIF+
+U4 Z → [Z_RAW] → R8 → R11 → [PAIR_N] → FL1 2→3 → [SPDIF_N] → J2 SPDIF−
+                                                   R9 56Ω: SPDIF_P ↔ SPDIF_N
 ```
 
 ---
@@ -383,18 +364,21 @@ SPDIF_P/N ↔ GND: C13/C14 DNP
 - [ ] U2 `1=IN`, `2=GND`, `3=OUT`, `4=TAB=GND`
 - [ ] U3 `1=OUT`, `2=GND`, `3=IN+`, `4=IN−`, `5=VCC`
 - [ ] U4 `1=DI`, `2=VCC`, `3=DE`, `4=Z`, `5=GND`, `6=Y`
-- [ ] D1 `A=ACC_FUSED`, `K=VIN_PROTECTED`
-- [ ] D2, C1, C2는 전원과 GND 사이 병렬 연결
+- [ ] D1 `Device:D`: 1=K → `VIN_PROTECTED`, 2=A → `ACC_FUSED`
+- [ ] F1 `1_1+1_2` 묶음, `2_1+2_2` 묶음
+- [ ] D2는 `ACC_FUSED ↔ GND`(D1 앞), C1·C2는 `VIN_PROTECTED ↔ GND`(D1 뒤) 병렬
 - [ ] C1 전해커패시터 극성 확인
 - [ ] C7/C8은 U3/U4 전원 핀 바로 옆에 배치
 - [ ] R1 75Ω은 BNC 입력에서 GND로 종단
 - [ ] VREF는 R3/R4로 생성하고 R2/C10/U3 IN−에 연결
-- [ ] R6은 DNP이며 임의의 hysteresis 배선이 없음
+- [ ] R6은 DNP·TBD이며, 연결했다면 `CMP_OUT ↔ SPDIF_AC`뿐 (0Ω 아님)
 - [ ] 기본 극성은 R10/R11만 FIT, R12/R13은 DNP
-- [ ] L1 FIT 시 R14/R15는 DNP
+- [ ] FL1 FIT 시 R14/R15는 DNP. R14 = FL1 1↔4, R15 = FL1 2↔3
 - [ ] R9 56Ω은 CMC 뒤 `SPDIF_P ↔ SPDIF_N`에 FIT
 - [ ] C11~C14는 모두 DNP
-- [ ] J2/J3 및 L1의 물리 핀 번호는 실제 부품 도면으로 별도 확인
+- [ ] J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF_P, 2=SPDIF_N, 3=GND` (GND 마지막)
+- [ ] `PWR_FLAG`: `VIN_PROTECTED`, `+3.3V`(U2 OUT 핀 타입이 output), 필요 시 `GND`
+- [ ] ERC 후 넷리스트로 핀 단위 대조 (겹친 라벨 단락은 ERC 경고로만 나올 수 있음)
 
 ## 5. PCB 풋프린트 확정 전에 남은 결정
 
@@ -404,7 +388,7 @@ SPDIF_P/N ↔ GND: C13/C14 DNP
 4. D1/D2의 리드 성형 간격과 패드 간격
 5. U1 TRACO 모듈의 방향, 높이, 핀 간격
 6. J1 BNC와 FH1 퓨즈홀더의 실제 패드 번호·기구 치수
-7. L1 CMC의 land pattern과 권선 채널 매핑
+7. FL1 CMC의 land pattern과 권선 채널 매핑
 8. 케이스 납입, 커넥터 방향, 테스트포인트 접근성
 
 이 항목들은 회로도 작업을 막지 않지만, **PCB 풋프린트 lock과 제조 전에는 반드시 해결**한다.

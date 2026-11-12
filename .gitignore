@@ -17,3 +17,7 @@ download/
 # ===== Python 캐시 =====
 __pycache__/
 *.pyc
+
+# ===== 케이스포유 RT-75 도면 (무단복제 금지 문구 · 공개 저장소) — 로컬 전용 =====
+# 치수는 docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md 에 기록
+references/case_file/
