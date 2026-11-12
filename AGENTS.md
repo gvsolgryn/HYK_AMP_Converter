@@ -93,5 +93,5 @@
 - J1 BNC: PCB 앞 가장자리에 두고 나사부를 앞판(1.5 mm)으로 관통해 너트 고정(결정 #17). **전용 풋프린트 제작 필요** (현재 Amphenol 50Ω 임시)
 - PCB 전 미결: J1 풋프린트, C1 전해 THT 실물 MPN·풋프린트(현재 0805 임시), J2 정품 XH 확정, MLCC·저항 MPN, 케이스 접지 정책·J1 쉴드 0Ω 옵션, 뒷판 하네스 출구, 케이스 고정 방법
 - 외함 가공(앞판 BNC 구멍, 뒷판 그로밋)·레이저 마킹·실크 인쇄는 **PCB 배치 확정 + 시제품 맞춤 확인 후** 진행. 위치 기준은 PCB의 J1 위치
-- 케이스 도면 `references/case_file/RT_7511.zip`, `RT_7590.zip`은 **로컬 전용**(케이스포유 무단복제 금지 문구 + 공개 저장소라 `.gitignore`). 치수는 인계 문서에 기록됨. PDF 렌더링은 KiCad Python의 PyMuPDF 사용
+- 케이스 도면 `references/case_file/RT_7511.zip`, `RT_7590.zip`은 **로컬 전용**(케이스포유 무단복제 금지 문구 + 공개 저장소라 `.gitignore`). 치수는 인계 문서에 기록됨. **원본 다운로드: [케이스포유 자료실 RT-75 TYPE PDF·DWG·STEP](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)** (회원 로그인 필요할 수 있음). PDF 렌더링은 KiCad Python의 PyMuPDF 사용
 - 미완료 검증: DUDU7 실측 전압, AMP 남부 종단/입력 레벨, F400 대비 CMC 적합성, 실차 팝노이즈(DE)·무입력 발진(R_HYS)

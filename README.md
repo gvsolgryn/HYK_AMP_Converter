@@ -102,7 +102,7 @@ HYK_AMP_Converter/
 │  ├─ DUDU7_i40_SPDIF_TX_Rev1_Symbol_Footprint_Audit_20261111.md    ← 심볼·풋프린트 대조 기록
 │  └─ DUDU7_i40_SPDIF_KiCad_Handoff_RevA2_20261016.md 외            ← 이전 Rev. (전원단은 사용 안 함)
 ├─ references/datasheets/   ← 핀아웃 검증용 제조사 데이터시트 원문
-├─ references/case_file/    ← 케이스포유 RT-75 도면 zip (로컬 전용, .gitignore — 저작권)
+├─ references/case_file/    ← 케이스포유 RT-75 도면 zip (로컬 전용, .gitignore — 저작권). 원본: [케이스포유 자료실 RT-75](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)
 ├─ AGENTS.md                ← AI 에이전트 작업 지침 (핀아웃·회로 규칙·사고 이력)
 └─ .gitignore
 ```

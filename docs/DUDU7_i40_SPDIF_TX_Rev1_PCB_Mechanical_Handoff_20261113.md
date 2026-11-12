@@ -88,7 +88,7 @@
 ### 3.4 도면 파일과 저작권
 
 - 케이스포유 도면에 "무단복제·전재·발췌 시 저작권법 저촉" 문구가 있고, 이 저장소는 **공개(public)** 상태다.
-- 그래서 `references/case_file/`는 **`.gitignore`로 제외**했다. 사용자 PC에만 있다. 다른 PC에서는 케이스포유 자료실(로그인 필요할 수 있음)에서 RT-7511 도면을 다시 받는다.
+- 그래서 `references/case_file/`는 **`.gitignore`로 제외**했다. 사용자 PC에만 있다. 다른 PC에서는 **[케이스포유 자료실 · RT-75 TYPE PDF·DWG·STEP](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)** 에서 받는다 (RT-7511·RT-7590 포함, 회원 로그인이 필요할 수 있음). 받은 zip은 `references/case_file/`에 둔다.
 - 치수(사실 정보)만 이 문서에 기록했다.
 - PDF를 이미지로 보려면 KiCad 내장 Python의 PyMuPDF를 쓴다 (MCP 설치 때 함께 설치됨):
   ```bash
