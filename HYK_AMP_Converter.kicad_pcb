@@ -5014,85 +5014,18 @@
 			(layer "Dwgs.User")
 			(uuid "3d33a583-20ca-465e-b573-76356c4cd1da")
 		)
-		(fp_line
-			(start -33.8 -5)
-			(end -12.55 -5)
+		(fp_poly
+			(pts
+				(xy -33.8 -5) (xy -12.55 -5) (xy -12.55 -7.6) (xy 2.2 -7.6) (xy 2.2 7.6) (xy -12.55 7.6) (xy -12.55 5)
+				(xy -33.8 5)
+			)
 			(stroke
 				(width 0.05)
-				(type solid)
+				(type default)
 			)
+			(fill no)
 			(layer "F.CrtYd")
-			(uuid "00c67bba-5c28-4af9-a9fe-5a3010f3aed4")
-		)
-		(fp_line
-			(start -33.8 5)
-			(end -33.8 -5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "8ef2330b-b0be-4f85-9f0e-b3a2278ac751")
-		)
-		(fp_line
-			(start -12.55 -7.6)
-			(end 2.2 -7.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "1495d0cb-5f26-446d-81ad-404b46ffd2d8")
-		)
-		(fp_line
-			(start -12.55 -5)
-			(end -12.55 5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "f1f08ba6-8890-4f8e-9af8-660a77bab5df")
-		)
-		(fp_line
-			(start -12.55 5)
-			(end -33.8 5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "f4e2833b-7cf7-4ee1-be35-318db01ce347")
-		)
-		(fp_line
-			(start -12.55 7.6)
-			(end -12.55 -7.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "10d41bd4-adac-42ef-9403-b24fb683897e")
-		)
-		(fp_line
-			(start 2.2 -7.6)
-			(end 2.2 7.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "2e9512b0-3a1f-49db-9d34-27c48fd3f8de")
-		)
-		(fp_line
-			(start 2.2 7.6)
-			(end -12.55 7.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "a54870e1-142c-4d92-95f4-9f7267288d15")
+			(uuid "58a92e89-27cf-4ad6-905d-e576fa10f5ed")
 		)
 		(fp_line
 			(start -33.55 -4.75)
@@ -8576,6 +8509,198 @@
 			(uuid "c5e7f739-4690-47b9-abab-cf2a20cdabef")
 		)
 		(embedded_fonts no)
+	)
+	(footprint "Case_RT75:CASE_RT7511"
+		(locked yes)
+		(layer "F.Cu")
+		(uuid "ca0ae57f-f163-47da-8ea1-f8d8e79eb940")
+		(at 50 65.25)
+		(descr "CaseForU RT-7511 enclosure, 3D + keep-out reference only (no pads). Origin = PCB front edge, board width centre; place at the front-edge midpoint with 0 deg rotation. Lines from RT-7511.STEP cross-section: groove engagement 1.5 mm from each long edge, top screw-boss zone 3.9 mm (height <= 15.2 mm above PCB), panels at x=0 / x=107 (inner faces). STEP file is local-only (references/case_file, git-ignored).")
+		(tags "enclosure case RT-75 mechanical")
+		(property "Reference" "MECH1"
+			(at 50 -36.5 0)
+			(layer "Dwgs.User")
+			(hide yes)
+			(uuid "288a2c5a-7ff6-4b14-9a28-c64cb47598a4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "CASE_RT7511"
+			(at 50 36.5 0)
+			(layer "Dwgs.User")
+			(hide yes)
+			(uuid "bcbf6f32-ed2e-48f9-9af6-c756c8f02e66")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ba11d374-60b6-4315-81a8-eb22bcae047c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8df60545-0812-46c9-9fbd-ffb93d901144")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr through_hole board_only exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -1.5 -37.5)
+			(end -1.5 37.5)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "Dwgs.User")
+			(uuid "41597d54-3561-4b26-8a65-2092c146ce9e")
+		)
+		(fp_line
+			(start 0 -37.5)
+			(end 0 37.5)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "Dwgs.User")
+			(uuid "d2b2f334-1c3a-422d-b37a-8dcff0698c94")
+		)
+		(fp_line
+			(start 0 -33.25)
+			(end 107 -33.25)
+			(stroke
+				(width 0.1)
+				(type dash)
+			)
+			(layer "Dwgs.User")
+			(uuid "f6166222-d235-4ecf-8fe6-f29725da950f")
+		)
+		(fp_line
+			(start 0 -30.85)
+			(end 107 -30.85)
+			(stroke
+				(width 0.1)
+				(type dot)
+			)
+			(layer "Dwgs.User")
+			(uuid "d854e57c-6ccb-4e2f-8e04-b67c277e5d79")
+		)
+		(fp_line
+			(start 0 30.85)
+			(end 107 30.85)
+			(stroke
+				(width 0.1)
+				(type dot)
+			)
+			(layer "Dwgs.User")
+			(uuid "b26f6319-ac87-439e-979a-86bd49a45ed6")
+		)
+		(fp_line
+			(start 0 33.25)
+			(end 107 33.25)
+			(stroke
+				(width 0.1)
+				(type dash)
+			)
+			(layer "Dwgs.User")
+			(uuid "5a30a22b-0d4f-46b2-aafb-7e179e3ffe15")
+		)
+		(fp_line
+			(start 107 -37.5)
+			(end 107 37.5)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "Dwgs.User")
+			(uuid "f3cf16f9-caf6-48d4-a74a-2bc1500fa943")
+		)
+		(fp_line
+			(start 108.5 -37.5)
+			(end 108.5 37.5)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "Dwgs.User")
+			(uuid "47ea5bc6-b963-4cba-ab5c-0a3757bae3d4")
+		)
+		(fp_text user "FRONT PANEL"
+			(at -0.75 0 90)
+			(layer "Dwgs.User")
+			(uuid "15047715-a6d1-47d8-8c9e-b06b6decf41c")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.1)
+				)
+			)
+		)
+		(fp_text user "GROOVE 1.5"
+			(at 90 -32.4 0)
+			(layer "Dwgs.User")
+			(uuid "e32e2f60-144a-4e2c-a247-410286380d9e")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.1)
+				)
+			)
+		)
+		(fp_text user "BOSS: H<=15.2"
+			(at 90 -30 0)
+			(layer "Dwgs.User")
+			(uuid "ceef8dd4-8323-4514-be42-34ac814db200")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.1)
+				)
+			)
+		)
+		(fp_text user "REAR PANEL"
+			(at 107.75 0 90)
+			(layer "Dwgs.User")
+			(uuid "b0aae345-1773-4c0d-9a6d-8479b6a7878d")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.1)
+				)
+			)
+		)
+		(embedded_fonts no)
+		(model "${KIPRJMOD}/references/case_file/RT_7511/RT-7511.STEP"
+			(offset
+				(xyz -33.5 2035.672 1571.395)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 0 -90)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 		(layer "F.Cu")
