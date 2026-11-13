@@ -6825,7 +6825,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://product.tdk.com/en/search/emc/emc/cmf_cmc/info?part_no=ACM2012H-900-2P-T00"
+		(property "Datasheet" "https://product.tdk.com/info/en/catalog/datasheets/cmf_automotive_signal_acm2012_en.pdf"
 			(at 96.52 358.75 0)
 			(hide yes)
 			(show_name no)
@@ -6860,7 +6860,7 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer_Name" "TDK"
+		(property "Manufacturer" "TDK"
 			(at 96.52 658.75 0)
 			(hide yes)
 			(show_name no)
@@ -6872,56 +6872,8 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer_Part_Number" "ACM2012-900-2P-T001"
+		(property "MPN" "ACM2012-900-2P-T001"
 			(at 96.52 758.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Part Number" "810-ACM2012H9002PT00"
-			(at 96.52 858.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/TDK/ACM2012H-900-2P-T00/?qs=SmrifQtE7OZBX6NDkVE%2F5Q%3D%3D"
-			(at 96.52 958.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Arrow Part Number" "ACM2012H-900-2P-T00"
-			(at 96.52 1058.75 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Arrow Price/Stock" "https://www.arrow.com/en/products/acm2012h-900-2p-t00/tdk?region=nac"
-			(at 96.52 1158.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8933,7 +8885,7 @@
 				)
 			)
 		)
-		(property "Value" "3557-2[Fuse_Holder]"
+		(property "Value" "2A LP Mini"
 			(at 45.72 26.416 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8979,7 +8931,7 @@
 				(justify bottom)
 			)
 		)
-		(property "DATASHEET_URL" "https://s3.amazonaws.com/snapeda/datasheet/3557-2_Keystone.pdf"
+		(property "Manufacturer" "Keystone Electronics"
 			(at 45.72 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -8991,19 +8943,7 @@
 				(justify bottom)
 			)
 		)
-		(property "MANUFACTURER" "Keystone Electronics"
-			(at 45.72 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-			)
-		)
-		(property "MAXIMUM_PACKAGE_HEIGHT" "7.37mm"
+		(property "Height" "7.37mm"
 			(at 45.72 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -9027,7 +8967,18 @@
 				(justify bottom)
 			)
 		)
-		(property "PARTREV" "D"
+		(property "Fuse_MPN" "0891002.NXS"
+			(at 45.72 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fuse_Manufacturer" "Littelfuse"
 			(at 45.72 30.48 0)
 			(hide yes)
 			(show_name no)
@@ -9037,53 +8988,6 @@
 					(size 1.27 1.27)
 				)
 				(justify bottom)
-			)
-		)
-		(property "Package" "Nonstandard Keystone"
-			(at 45.72 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-			)
-		)
-		(property "SOURCE_URL" "https://www.snapeda.com/parts/3557-2/Keystone/view-part/"
-			(at 45.72 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-			)
-		)
-		(property "STANDARD" "Manufacturer Recommendation"
-			(at 45.72 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify bottom)
-			)
-		)
-		(property "Fuse_MPN" "0891002.nxs"
-			(at 45.72 30.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 			)
 		)
 		(pin "1_1"
@@ -9363,7 +9267,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10µF"
+		(property "Value" "10µF / 16V X7R"
 			(at 221.234 53.34 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10955,7 +10859,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10µF"
+		(property "Value" "10µF / 16V X7R"
 			(at 231.394 53.34 0)
 			(show_name no)
 			(do_not_autoplace no)
