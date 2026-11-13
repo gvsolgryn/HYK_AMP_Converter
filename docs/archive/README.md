@@ -9,7 +9,7 @@
 | 문서 | 용도 |
 |---|---|
 | `AGENTS.md` | 작업 규칙, 검증된 핀아웃, 현재 상태 |
-| `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` | Rev.1 사양 + **§9 Decision log (#1~#18)** — 최우선 기준 |
+| `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` | Rev.1 사양 + **§9 Decision log (#1~#20)** — 최우선 기준 |
 | `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md` | PCB·외함 인계, 다음 작업 순서. 옛 문서에서 유효한 내용은 §8에 옮겨 둠 |
 | `docs/DUDU7_i40_SPDIF_TX_Rev1_Schematic_Placement_and_Wiring.md/.html` | 회로도 연결 가이드 (결정 로그와 동기화됨) |
 
