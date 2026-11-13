@@ -14,7 +14,7 @@
 `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
 - Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2의 LMR16006 Buck 회로는 **사용하지 않음**
 - 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
-- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#24)
+- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#25)
 - **다음 작업(PCB) 인계 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md`** — 외함 치수, J1 BNC 장착, PCB 제약, 작업 순서, 미결 항목. PCB 작업 전에 먼저 읽을 것
 - **지난 문서는 `docs/archive/`** (Rev.A 초안, Rev.A2, Rev.1 초기 심볼 감사). 부품·번호·외함이 현재와 달라 **기본적으로 읽지 않는다**. 이력·근거가 필요할 때만 열고, 현행 문서와 충돌하면 현행 문서가 우선. 목록과 차이는 `docs/archive/README.md`
 
@@ -29,7 +29,7 @@
 | FL1 ACM2012-900-2P-T001 | Line1 = 핀1↔4 · Line2 = 핀2↔3 (TDK 데이터시트 Circuit Diagram 확인, 무극성) |
 | D1 SB360 (DO-201 축형) | 심볼 `Device:D` 1=K · 2=A ↔ 풋프린트 `SB360:P2_DO-201` 패드1(사각, 띠)=K |
 | F1 Keystone 3557-2 | 핀 1_1·1_2 = 한쪽, 2_1·2_2 = 반대쪽 → **각 쌍을 함께 배선** |
-| J1 KH-BNC75-3511 | 1=중심(In) · 2=GND(Ext) |
+| J1 KH-BNC75-3511 | 1=중심(In) · 2=쉴드(Ext) → 넷 `/SHIELD`, R17 0Ω(실장) ∥ C15(TBD, DNP)로 GND (결정 #25) |
 
 - 원문 PDF: `references/datasheets/`
 - **온라인 정보(AI 포함)와 데이터시트가 다르면 데이터시트가 항상 정답.**
@@ -95,7 +95,7 @@
 - D1 풋프린트 `SB360:P2_DO-201` 드릴 1.5 mm로 확대(결정 #19). SB360은 다수 제조사 범용 품번(DO-201AD 표준) — 결정 #20
 - C1 = Panasonic **EEU-FR1H220**, `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` (결정 #20). F1 홀더 드릴 1.8 mm로 확대(블레이드 대각선 1.62 > 권장 최소 홀 1.60)
 - J2 = 프로젝트 사본 풋프린트 `JST_XH_S3B-XH-A:…_Drill1.0` (드릴 0.95→1.0 mm, 결정 #21)
-- 발주 전 남은 일: 3D 간섭 확인, 실크 마무리(J2 `SP− SP+ GND`·J3 `ACC GND`·극성 매트릭스 주의 문구), MLCC·저항 MPN 및 U/D/J `Manufacturer`·`MPN` 필드, 케이스 접지 정책·J1 쉴드 0Ω 옵션, 라이브러리 U3/U4 풋프린트의 중복 `*` 실크 정리(PCB 사본은 정리됨), 뒷판 하네스 출구, 케이스 고정 방법. **Gerber 생성은 사용자 승인 후**
+- 발주 전 남은 일: 3D 간섭 확인, MLCC·저항 MPN 및 U/D/J `Manufacturer`·`MPN` 필드, 뒷판 하네스 출구, 케이스 고정 방법. **Gerber 생성은 사용자 승인 후**. (실크 마무리·J1 쉴드 옵션·라이브러리 `*` 정리는 2026-11-13 완료, 결정 #25)
 - PCB 보조 스크립트(`output/`, git 제외): `tidy_text.py`(F.Fab/실크 글자 정리), `emi_review.py`(꺾임·디커플링 거리·Bottom 절단 점검). KiCad를 완전히 닫고 실행
 - 외함 가공(앞판 BNC 구멍, 뒷판 그로밋)·레이저 마킹·실크 인쇄는 **PCB 배치 확정 + 시제품 맞춤 확인 후** 진행. 위치 기준은 PCB의 J1 위치
 - 케이스 도면 `references/case_file/RT_7511.zip`, `RT_7590.zip`은 **로컬 전용**(케이스포유 무단복제 금지 문구 + 공개 저장소라 `.gitignore`). 치수는 인계 문서에 기록됨. **원본 다운로드: [케이스포유 자료실 RT-75 TYPE PDF·DWG·STEP](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)** (회원 로그인 필요할 수 있음). PDF 렌더링은 KiCad Python의 PyMuPDF 사용
