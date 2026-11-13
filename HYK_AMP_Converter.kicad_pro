@@ -537,6 +537,25 @@
       },
       {
         "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "GND",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.5,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
         "clearance": 0.3,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -578,25 +597,6 @@
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "GND",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 2,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.5,
-        "tuning_profile": "",
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
-        "wire_width": 6
-      },
-      {
-        "bus_width": 12,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.3,
         "line_style": 0,
         "microvia_diameter": 0.3,
@@ -618,20 +618,62 @@
     "net_colors": {},
     "netclass_assignments": {},
     "netclass_patterns": [
-      { "netclass": "Power12", "pattern": "/ACC_IN" },
-      { "netclass": "Power12", "pattern": "/ACC_FUSED" },
-      { "netclass": "Power12", "pattern": "/VIN_PROTECTED" },
-      { "netclass": "Rail", "pattern": "+5V" },
-      { "netclass": "Rail", "pattern": "+3.3V" },
-      { "netclass": "GND", "pattern": "GND" },
-      { "netclass": "SPDIF_OUT", "pattern": "/Y_RAW" },
-      { "netclass": "SPDIF_OUT", "pattern": "/Z_RAW" },
-      { "netclass": "SPDIF_OUT", "pattern": "/PAIR_P" },
-      { "netclass": "SPDIF_OUT", "pattern": "/PAIR_N" },
-      { "netclass": "SPDIF_OUT", "pattern": "/SPDIF_P" },
-      { "netclass": "SPDIF_OUT", "pattern": "/SPDIF_N" },
-      { "netclass": "SPDIF_OUT", "pattern": "Net-(R10-Pad1)" },
-      { "netclass": "SPDIF_OUT", "pattern": "Net-(R11-Pad2)" }
+      {
+        "netclass": "Power12",
+        "pattern": "/ACC_IN"
+      },
+      {
+        "netclass": "Power12",
+        "pattern": "/ACC_FUSED"
+      },
+      {
+        "netclass": "Power12",
+        "pattern": "/VIN_PROTECTED"
+      },
+      {
+        "netclass": "Rail",
+        "pattern": "+5V"
+      },
+      {
+        "netclass": "Rail",
+        "pattern": "+3.3V"
+      },
+      {
+        "netclass": "GND",
+        "pattern": "GND"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/Y_RAW"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/Z_RAW"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/PAIR_P"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/PAIR_N"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/SPDIF_P"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "/SPDIF_N"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "Net-(R10-Pad1)"
+      },
+      {
+        "netclass": "SPDIF_OUT",
+        "pattern": "Net-(R11-Pad2)"
+      }
     ]
   },
   "pcbnew": {
