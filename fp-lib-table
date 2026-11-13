@@ -10,4 +10,5 @@
 	(lib (name "MAX3295AUT-V-T") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/MAX3295AUT-V-T.pretty") (options "") (descr ""))
 	(lib (name "TLV3601QDBVRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TLV3601QDBVRQ1.pretty") (options "") (descr ""))
 	(lib (name "TPS7B8350QDCYRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TPS7B8350QDCYRQ1.pretty") (options "") (descr ""))
+	(lib (name "KH-BNC75-3511") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/KH-BNC75-3511.pretty") (options "") (descr "Kinghelm BNC 75 Ohm, project-made"))
 )
