@@ -11,4 +11,5 @@
 	(lib (name "TLV3601QDBVRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TLV3601QDBVRQ1.pretty") (options "") (descr ""))
 	(lib (name "TPS7B8350QDCYRQ1") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/TPS7B8350QDCYRQ1.pretty") (options "") (descr ""))
 	(lib (name "KH-BNC75-3511") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/KH-BNC75-3511.pretty") (options "") (descr ""))
+	(lib (name "JST_XH_S3B-XH-A") (type "KiCad") (uri "${KIPRJMOD}/libraries/footprints/JST_XH_S3B-XH-A.pretty") (options "") (descr ""))
 )

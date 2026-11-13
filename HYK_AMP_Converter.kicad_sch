@@ -11779,7 +11779,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_XH_S3B-XH-A_1x03_P2.50mm_Horizontal"
+		(property "Footprint" "JST_XH_S3B-XH-A:JST_XH_S3B-XH-A_1x03_P2.50mm_Horizontal_Drill1.0"
 			(at 369.57 184.15 0)
 			(hide yes)
 			(show_name no)
