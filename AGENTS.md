@@ -14,7 +14,7 @@
 `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
 - Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2의 LMR16006 Buck 회로는 **사용하지 않음**
 - 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
-- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#22)
+- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#23)
 - **다음 작업(PCB) 인계 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md`** — 외함 치수, J1 BNC 장착, PCB 제약, 작업 순서, 미결 항목. PCB 작업 전에 먼저 읽을 것
 - **지난 문서는 `docs/archive/`** (Rev.A 초안, Rev.A2, Rev.1 초기 심볼 감사). 부품·번호·외함이 현재와 달라 **기본적으로 읽지 않는다**. 이력·근거가 필요할 때만 열고, 현행 문서와 충돌하면 현행 문서가 우선. 목록과 차이는 `docs/archive/README.md`
 
@@ -87,7 +87,7 @@
 
 - 회로도: Rev.1 부품 54개 배치·**배선 완료**, 넷리스트 핀 단위 대조 일치, **ERC 0건** (PWR_FLAG: `VIN_PROTECTED` #FLG01, `GND` #FLG02)
 - 회로도 레이아웃(2026-11-13 정리): 4개 블록(1 POWER / 2 INPUT / 3 DRIVER / 4 OUTPUT, 점선 프레임) · 블록 안은 와이어, 블록 간은 **로컬 라벨**(글로벌 라벨 미사용, 넷 이름은 `/ACC_IN` 형식) · 우하단 타이틀 블록(x>177, y>166) 영역 비움
-- 커넥터 핀 배정(결정 로그 #15, "이름 순서 그대로, GND는 항상 마지막"): J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF_P, 2=SPDIF_N, 3=GND` — 하네스는 이 순서를 따름. 네모 패드 = 1번 표시일 뿐 GND 의미 아님
+- 커넥터 핀 배정: J3 `1=ACC_IN, 2=GND`(결정 #15) · **J2 `1=SPDIF_N, 2=SPDIF_P, 3=GND`(결정 #23, #15의 J2 순서 대체)** — FL1 출력(위 SP+, 아래 SP−)과 J2가 via·교차 없이 일직선. 하네스는 이 순서를 따름(뒤에서 볼 때 왼쪽부터 SP−·SP+·GND). 네모 패드 = 1번 표시일 뿐 GND 의미 아님
 - 프로젝트 심볼 핀 타입 수정(2026-11-13): U2 `TPS7B8350QDCYRQ1` IN·GND=power_in, OUT=power_out / U4 `MAX3295AUT_V+T` DI·DE=input, Y·Z=output
 - 저항 필드: Value=실제 값(몸체 안 세로 1.0mm), Description=역할 이름(R_TERM 등)
 - PCB: **미착수**. 외형 **69.5 × 100.0 mm**(결정 #18: JLCPCB 특가 한도 102 × 102 mm. RT-7511 홈 폭 69.7, 본체 길이 107 → 앞 가장자리는 본체 앞끝에 맞추고 뒤쪽 약 7 mm는 빈 공간), PCB 아래 4.5 mm·위 약 19.4 mm, Bottom 부품 금지 — 세부는 인계 문서 §3

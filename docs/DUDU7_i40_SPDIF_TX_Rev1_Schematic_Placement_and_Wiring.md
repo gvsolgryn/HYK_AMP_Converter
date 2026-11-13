@@ -142,7 +142,7 @@ DNP는 **R6, R12~R15, C11~C14**다.
 - `K`: 다이오드 Cathode
 - `FIT`: 초기 실장
 - `DNP`: 풋프린트는 유지하되 초기 미실장
-- 커넥터 핀 배정 (결정 로그 #15, 이름 순서 그대로, GND 마지막): J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF+, 2=SPDIF−, 3=GND`. 네모 패드는 1번 표시일 뿐 GND 의미가 아니다.
+- 커넥터 핀 배정: J3 `1=ACC_IN, 2=GND` (결정 로그 #15) · J2 `1=SPDIF−, 2=SPDIF+, 3=GND` (결정 로그 #23, FL1 출력과 일직선 배선, GND 마지막). 네모 패드는 1번 표시일 뿐 GND 의미가 아니다.
 - J1은 `1=In`(CENTER), `2=Ext`(SHIELD). FL1은 Line1 = 핀 1↔4, Line2 = 핀 2↔3 (TDK 데이터시트, 결정 로그 #2).
 - D1 `Device:D`는 **1=K, 2=A** (결정 로그 #11). F1은 `1_1+1_2`, `2_1+2_2`를 각각 묶어 배선한다.
 
@@ -327,10 +327,10 @@ FL1  ACM2012-900-2P-T001
 [SPDIF_P] ── C13  TBD  DNP ────── GND
 [SPDIF_N] ── C14  TBD  DNP ────── GND
 
-J2  3-pin XH                               ← 결정 로그 #15: 이름 순서, GND 마지막
+J2  3-pin XH                               ← 결정 로그 #23: 1=SP−, 2=SP+, GND 마지막
 ┌────────────┐
-│ 1  SPDIF+  ├──── [SPDIF_P] ── TP12     ← 꼬임쌍
-│ 2  SPDIF−  ├──── [SPDIF_N] ── TP13     ← 꼬임쌍
+│ 1  SPDIF−  ├──── [SPDIF_N] ── TP13     ← 꼬임쌍
+│ 2  SPDIF+  ├──── [SPDIF_P] ── TP12     ← 꼬임쌍
 │ 3  GND     ├──── GND                   ← 검정
 └────────────┘
 ```
@@ -376,7 +376,7 @@ U4 Z → [Z_RAW] → R8 → R11 → [PAIR_N] → FL1 2→3 → [SPDIF_N] → J2 
 - [ ] FL1 FIT 시 R14/R15는 DNP. R14 = FL1 1↔4, R15 = FL1 2↔3
 - [ ] R9 56Ω은 CMC 뒤 `SPDIF_P ↔ SPDIF_N`에 FIT
 - [ ] C11~C14는 모두 DNP
-- [ ] J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF_P, 2=SPDIF_N, 3=GND` (GND 마지막)
+- [ ] J3 `1=ACC_IN, 2=GND` · J2 `1=SPDIF_N, 2=SPDIF_P, 3=GND` (결정 #23, GND 마지막)
 - [ ] `PWR_FLAG`: `VIN_PROTECTED`, `+3.3V`(U2 OUT 핀 타입이 output), 필요 시 `GND`
 - [ ] ERC 후 넷리스트로 핀 단위 대조 (겹친 라벨 단락은 ERC 경고로만 나올 수 있음)
 

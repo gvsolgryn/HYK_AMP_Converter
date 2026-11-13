@@ -284,7 +284,7 @@
           <tr><td class="ref">F1 / FH1</td><td><code>3557-2:3557-2</code></td><td>F1 심볼 하나로 표현 (결정 로그 #4). <strong><code>1_1</code>+<code>1_2</code>를 함께, <code>2_1</code>+<code>2_2</code>를 함께 배선</strong>. Footprint <code>FUSE_3557-2:FUSE_3557-2</code>. 퓨즈 인서트 <code>0891002.NXS</code>는 MPN 필드에 기록.</td></tr>
           <tr><td class="ref">FL1</td><td><code>ACM2012H-900-2P-T00:ACM2012H-900-2P-T00</code></td><td>Value <code>ACM2012-900-2P-T001</code> (H/non-H 동일 치수). <strong>Line1 = 1↔4, Line2 = 2↔3</strong> (TDK Circuit Diagram, 무극성). Footprint <code>ACM2012H-900-2P-T00:ACM20121022PT001</code>.</td></tr>
           <tr><td class="ref">J1</td><td><code>Connector:Conn_Coaxial</code></td><td>Value <code>KH-BNC75-3511</code>. <strong><code>1=In</code>(CENTER), <code>2=Ext</code>(SHIELD)</strong>. 실제 BNC 풋프린트는 PCB 단계에서 확정.</td></tr>
-          <tr><td class="ref">J2</td><td><code>Connector_Generic:Conn_01x03</code></td><td><strong><code>1=SPDIF+</code>, <code>2=SPDIF−</code>, <code>3=GND</code></strong> (결정 로그 #15). Value는 실제 구매한 XH 커넥터 MPN으로 변경하고 pitch 확인.</td></tr>
+          <tr><td class="ref">J2</td><td><code>Connector_Generic:Conn_01x03</code></td><td><strong><code>1=SPDIF−</code>, <code>2=SPDIF+</code>, <code>3=GND</code></strong> (결정 로그 #23). Value는 실제 구매한 XH 커넥터 MPN으로 변경하고 pitch 확인.</td></tr>
           <tr><td class="ref">J3</td><td><code>Connector_Generic:Conn_01x02</code></td><td>Value <code>JST B2PS-VH</code>. <strong><code>1=ACC_IN</code>, <code>2=GND</code></strong> (결정 로그 #15).</td></tr>
           <tr><td class="ref">C1</td><td><code>Device:C_Polarized</code></td><td>극성 전해커패시터 심볼. Value <code>22uF/50V</code>, 실제 MPN·직경·리드 간격은 구매 부품으로 확정.</td></tr>
           <tr><td class="ref">C2~C14</td><td><code>Device:C</code></td><td>일반 커패시터 심볼. 각 행의 값과 FIT/DNP를 그대로 적용하고 0805 풋프린트 지정.</td></tr>
@@ -598,10 +598,10 @@ U3  TLV3601QDBVRQ1 (SOT-23-5)
 <span class="n">[SPDIF_P]</span> ── C13  TBD  <span class="x">DNP</span> ────── GND
 <span class="n">[SPDIF_N]</span> ── C14  TBD  <span class="x">DNP</span> ────── GND
 
-J2  3-pin XH                               <span class="c">← 결정 로그 #15: 이름 순서, GND 마지막</span>
+J2  3-pin XH                               <span class="c">← 결정 로그 #23: 1=SP−, 2=SP+, GND 마지막</span>
 ┌────────────┐
-│ 1  SPDIF+  ├──── <span class="n">[SPDIF_P]</span> ── TP12     <span class="c">← 꼬임쌍</span>
-│ 2  SPDIF−  ├──── <span class="n">[SPDIF_N]</span> ── TP13     <span class="c">← 꼬임쌍</span>
+│ 1  SPDIF−  ├──── <span class="n">[SPDIF_N]</span> ── TP13     <span class="c">← 꼬임쌍</span>
+│ 2  SPDIF+  ├──── <span class="n">[SPDIF_P]</span> ── TP12     <span class="c">← 꼬임쌍</span>
 │ 3  GND     ├──── GND                   <span class="c">← 검정</span>
 └────────────┘</code></pre>
           <p>R9는 CMC 뒤 AMP 쪽 차동선 사이의 FIT 부품입니다. C11~C14는 모두 병렬 분기이므로 DNP여도 신호 경로는 유지됩니다.</p>
@@ -646,7 +646,7 @@ U4 Z → <span class="n">[Z_RAW]</span> → R8 → R11 → <span class="n">[PAIR
         <li><label><input type="checkbox" id="erc-13"><span>FL1 FIT 시 R14/R15는 DNP. R14 = FL1 1↔4, R15 = FL1 2↔3</span></label></li>
         <li><label><input type="checkbox" id="erc-14"><span>R9 56Ω은 CMC 뒤 SPDIF_P ↔ SPDIF_N에 FIT</span></label></li>
         <li><label><input type="checkbox" id="erc-15"><span>C11~C14는 모두 DNP</span></label></li>
-        <li><label><input type="checkbox" id="erc-16"><span>J3 <code>1=ACC_IN, 2=GND</code> · J2 <code>1=SPDIF_P, 2=SPDIF_N, 3=GND</code> (GND 마지막)</span></label></li>
+        <li><label><input type="checkbox" id="erc-16"><span>J3 <code>1=ACC_IN, 2=GND</code> · J2 <code>1=SPDIF_N, 2=SPDIF_P, 3=GND</code> (결정 #23, GND 마지막)</span></label></li>
         <li><label><input type="checkbox" id="erc-17"><span>D1 <code>Device:D</code>: 1=K → VIN_PROTECTED, 2=A → ACC_FUSED</span></label></li>
         <li><label><input type="checkbox" id="erc-18"><span>F1 <code>1_1+1_2</code> 묶음, <code>2_1+2_2</code> 묶음</span></label></li>
         <li><label><input type="checkbox" id="erc-19"><span><code>PWR_FLAG</code>: <code>VIN_PROTECTED</code>, <code>+3.3V</code>(U2 OUT 핀 타입이 output), 필요 시 <code>GND</code></span></label></li>
