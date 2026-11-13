@@ -14,7 +14,7 @@
 `docs/DUDU7_i40_SPDIF_TX_Rev1_BOM_for_KiCad_Agent.md` (**Rev.1**, 2026-11-11 채택) — 모든 설계 판단의 기준.
 - Rev.1은 전원단을 **TRACO TSR 1-2450 모듈**로 바꾼 버전. Rev.A2의 LMR16006 Buck 회로는 **사용하지 않음**
 - 출력 극성·토폴로지(`Y→SPDIF+ / Z→SPDIF−`, 120Ω 직렬, CMC 뒤 56Ω)는 Rev.A2와 동일
-- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#23)
+- 확정 결정 기록: BOM 문서 §9 "Decision log" (#1~#24)
 - **다음 작업(PCB) 인계 문서: `docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md`** — 외함 치수, J1 BNC 장착, PCB 제약, 작업 순서, 미결 항목. PCB 작업 전에 먼저 읽을 것
 - **지난 문서는 `docs/archive/`** (Rev.A 초안, Rev.A2, Rev.1 초기 심볼 감사). 부품·번호·외함이 현재와 달라 **기본적으로 읽지 않는다**. 이력·근거가 필요할 때만 열고, 현행 문서와 충돌하면 현행 문서가 우선. 목록과 차이는 `docs/archive/README.md`
 
@@ -90,12 +90,13 @@
 - 커넥터 핀 배정: J3 `1=ACC_IN, 2=GND`(결정 #15) · **J2 `1=SPDIF_N, 2=SPDIF_P, 3=GND`(결정 #23, #15의 J2 순서 대체)** — FL1 출력(위 SP+, 아래 SP−)과 J2가 via·교차 없이 일직선. 하네스는 이 순서를 따름(뒤에서 볼 때 왼쪽부터 SP−·SP+·GND). 네모 패드 = 1번 표시일 뿐 GND 의미 아님
 - 프로젝트 심볼 핀 타입 수정(2026-11-13): U2 `TPS7B8350QDCYRQ1` IN·GND=power_in, OUT=power_out / U4 `MAX3295AUT_V+T` DI·DE=input, Y·Z=output
 - 저항 필드: Value=실제 값(몸체 안 세로 1.0mm), Description=역할 이름(R_TERM 등)
-- PCB: **미착수**. 외형 **69.5 × 100.0 mm**(결정 #18: JLCPCB 특가 한도 102 × 102 mm. RT-7511 홈 폭 69.7, 본체 길이 107 → 앞 가장자리는 본체 앞끝에 맞추고 뒤쪽 약 7 mm는 빈 공간), PCB 아래 4.5 mm·위 약 19.4 mm, Bottom 부품 금지 — 세부는 인계 문서 §3
+- PCB: **배치·배선 완료 (2026-11-13), DRC 0 · 회로도 불일치 0 · ERC 0**. 외형 **69.5 × 100.0 mm** R1(결정 #18), 원점 (50, 30.5). 보드 설정·넷 클래스·EMI 정리는 결정 #24. 케이스 참조 `MECH1`(`Case_RT75:CASE_RT7511`, 잠금) — PCB 아래 4.5 mm·위 19.35 mm, Bottom 부품 금지 — 세부는 인계 문서 §3
 - J1 BNC: PCB 앞 가장자리에 두고 나사부를 앞판(1.5 mm)으로 관통해 너트 고정(결정 #17). 전용 풋프린트 `KH-BNC75-3511:KH-BNC75-3511`(결정 #19) 회로도 적용 완료. GND 리드 방향은 도면 정면·후면·PCB 뷰 3개로 대조 완료(앞이 −x일 때 GND = +y). 원점=중심 핀, 플랜지(=PCB 앞 가장자리)는 원점에서 앞쪽 12.55 mm
 - D1 풋프린트 `SB360:P2_DO-201` 드릴 1.5 mm로 확대(결정 #19). SB360은 다수 제조사 범용 품번(DO-201AD 표준) — 결정 #20
 - C1 = Panasonic **EEU-FR1H220**, `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` (결정 #20). F1 홀더 드릴 1.8 mm로 확대(블레이드 대각선 1.62 > 권장 최소 홀 1.60)
 - J2 = 프로젝트 사본 풋프린트 `JST_XH_S3B-XH-A:…_Drill1.0` (드릴 0.95→1.0 mm, 결정 #21)
-- PCB 전 미결: MLCC·저항 MPN, 케이스 접지 정책·J1 쉴드 0Ω 옵션, 뒷판 하네스 출구, 케이스 고정 방법
+- 발주 전 남은 일: 3D 간섭 확인, 실크 마무리(J2 `SP− SP+ GND`·J3 `ACC GND`·극성 매트릭스 주의 문구), MLCC·저항 MPN 및 U/D/J `Manufacturer`·`MPN` 필드, 케이스 접지 정책·J1 쉴드 0Ω 옵션, 라이브러리 U3/U4 풋프린트의 중복 `*` 실크 정리(PCB 사본은 정리됨), 뒷판 하네스 출구, 케이스 고정 방법. **Gerber 생성은 사용자 승인 후**
+- PCB 보조 스크립트(`output/`, git 제외): `tidy_text.py`(F.Fab/실크 글자 정리), `emi_review.py`(꺾임·디커플링 거리·Bottom 절단 점검). KiCad를 완전히 닫고 실행
 - 외함 가공(앞판 BNC 구멍, 뒷판 그로밋)·레이저 마킹·실크 인쇄는 **PCB 배치 확정 + 시제품 맞춤 확인 후** 진행. 위치 기준은 PCB의 J1 위치
 - 케이스 도면 `references/case_file/RT_7511.zip`, `RT_7590.zip`은 **로컬 전용**(케이스포유 무단복제 금지 문구 + 공개 저장소라 `.gitignore`). 치수는 인계 문서에 기록됨. **원본 다운로드: [케이스포유 자료실 RT-75 TYPE PDF·DWG·STEP](https://www.case4u.co.kr/board/free/read.html?no=1060&board_no=7)** (회원 로그인 필요할 수 있음). PDF 렌더링은 KiCad Python의 PyMuPDF 사용
 - 미완료 검증: DUDU7 실측 전압, AMP 남부 종단/입력 레벨, F400 대비 CMC 적합성, 실차 팝노이즈(DE)·무입력 발진(R_HYS)
