@@ -10380,7 +10380,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_B6252HB-NPP3G-50_Horizontal"
+		(property "Footprint" "KH-BNC75-3511:KH-BNC75-3511"
 			(at 2.54 67.31 0)
 			(hide yes)
 			(show_name no)
