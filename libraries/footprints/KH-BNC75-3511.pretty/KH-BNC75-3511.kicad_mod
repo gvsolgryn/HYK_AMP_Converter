@@ -23,4 +23,9 @@
   (pad "2" thru_hole circle (at 0 2.5) (size 1.6 1.6) (drill 0.9) (layers "*.Cu" "*.Mask"))
   (pad "2" thru_hole circle (at -5.05 -5.05) (size 3.2 3.2) (drill 2.0) (layers "*.Cu" "*.Mask"))
   (pad "2" thru_hole circle (at -5.05 5.05) (size 3.2 3.2) (drill 2.0) (layers "*.Cu" "*.Mask"))
+  (model "${KIPRJMOD}/libraries/3dmodels/KH-BNC75-3511.wrl"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 0 0))
+  )
 )

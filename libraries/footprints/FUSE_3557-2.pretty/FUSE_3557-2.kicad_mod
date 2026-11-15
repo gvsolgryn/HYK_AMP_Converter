@@ -23,4 +23,9 @@
   (fp_line (start -9.905 3.365) (end 9.905 3.365) (layer F.Fab) (width 0.127))
   (fp_line (start 9.905 3.365) (end 9.905 -3.365) (layer F.Fab) (width 0.127))
   (fp_line (start 9.905 -3.365) (end -9.905 -3.365) (layer F.Fab) (width 0.127))
+  (model "${KIPRJMOD}/libraries/footprints/FUSE_3557-2.pretty/3557-2.step"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz -90 0 0))
+  )
 )

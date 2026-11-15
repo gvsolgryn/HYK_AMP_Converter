@@ -63,6 +63,7 @@
   - 예: `TPS7B8350QDCYRQ1`, `TLV3601QDBVRQ1`, `MAX3295AUT-V-T`, `TSR_1-2450`, `3557-2`, `ACM2012H-900-2P-T00`, `FUSE_3557-2`, `SB360`, `CONV_TSR_1-2450`
   - 구 닉네임 `UL_FP_*`도 같은 폴더를 가리키는 중복 등록으로 남아 있음
 - 손납대 기준 **-L(대패드) 변종** 사용 (U2·U3·U4)
+- 3D 모델: U2·U3·U4는 KiCad 기본 SOT 모델, F1은 `FUSE_3557-2.pretty/3557-2.step`, **J1·J3는 `libraries/3dmodels/*.wrl`(데이터시트 치수로 만든 단순 모델, 벤더 모델 아님)**, C1은 기본 모델을 Ø5×11에 맞춰 z 배율 2.2. 케이스 `MECH1`은 로컬 STEP(`references/case_file/RT_7511/RT-7511.STEP`, zip에서 풀기)이 있어야 보임
 - 프로젝트 라이브러리 등록은 `sym-lib-table` / `fp-lib-table`로 관리 — **깃에 반드시 포함**
 
 ## MCP 자동화 환경

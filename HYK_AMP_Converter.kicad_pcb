@@ -1042,6 +1042,17 @@
 			(uuid "91acbc68-8395-433f-af96-6d8fa26259a6")
 		)
 		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-223.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 -90)
+			)
+		)
 	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
 		(layer "F.Cu")
@@ -2304,6 +2315,17 @@
 			(uuid "1b759aa6-9d5e-4a55-ac98-20cc5d9d2f33")
 		)
 		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-6.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
@@ -4518,18 +4540,6 @@
 				(xyz 0 0 0)
 			)
 		)
-		(model "F:/data/Elektronik/KiCad/Models/Diotec-3D-Models/p3_DO-201.stp"
-			(hide yes)
-			(offset
-				(xyz 4 0 3)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 90 0 90)
-			)
-		)
 	)
 	(footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 		(layer "F.Cu")
@@ -5218,6 +5228,17 @@
 			(uuid "b3001fee-6ac1-443e-a4db-258b0d2e0753")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/libraries/3dmodels/KH-BNC75-3511.wrl"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 		(layer "F.Cu")
@@ -8765,6 +8786,17 @@
 			(uuid "c5e7f739-4690-47b9-abab-cf2a20cdabef")
 		)
 		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-5.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Case_RT75:CASE_RT7511"
 		(locked yes)
@@ -9629,7 +9661,7 @@
 			(uuid "06b68143-6e70-4ba5-960d-1aa6cf38828f")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_JST.3dshapes/JST_VH_B2PS-VH_1x02_P3.96mm_Horizontal.step"
+		(model "${KIPRJMOD}/libraries/3dmodels/JST_VH_B2PS-VH_1x02_P3.96mm_Horizontal.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -11022,7 +11054,7 @@
 				(xyz 0 0 0)
 			)
 			(scale
-				(xyz 1 1 1)
+				(xyz 1 1 2.2)
 			)
 			(rotate
 				(xyz 0 0 0)
@@ -11591,6 +11623,17 @@
 			(uuid "3312c977-9f6b-405f-9e42-8ee0a3140252")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/libraries/footprints/FUSE_3557-2.pretty/3557-2.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -90 0 0)
+			)
+		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
