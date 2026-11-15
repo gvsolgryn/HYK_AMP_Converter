@@ -63,7 +63,8 @@
   - 예: `TPS7B8350QDCYRQ1`, `TLV3601QDBVRQ1`, `MAX3295AUT-V-T`, `TSR_1-2450`, `3557-2`, `ACM2012H-900-2P-T00`, `FUSE_3557-2`, `SB360`, `CONV_TSR_1-2450`
   - 구 닉네임 `UL_FP_*`도 같은 폴더를 가리키는 중복 등록으로 남아 있음
 - 손납대 기준 **-L(대패드) 변종** 사용 (U2·U3·U4)
-- 3D 모델: U2·U3·U4는 KiCad 기본 SOT 모델, F1은 `FUSE_3557-2.pretty/3557-2.step`, **J1은 `libraries/3dmodels/KH-BNC75-3511.wrl`(데이터시트 치수로 만든 단순 모델)**, **J3는 `libraries/3dmodels/B2PS-VH.STEP` — SnapEDA에서 받은 파일이라 `.gitignore`(로컬 전용, 다른 PC는 [SnapEDA B2PS-VH](https://www.snapeda.com/parts/B2PS-VH/JST%20Sales/view-part/)에서 STEP을 받아 이 이름으로 저장, 없으면 J3만 3D 안 보임)**. PCB 인스턴스에 rotate x −90, offset x +1.98로 맞춤(KiCad 기본 VH 풋프린트라 PCB에만 설정). C1은 기본 모델을 Ø5×11에 맞춰 z 배율 2.2. 케이스 `MECH1`은 로컬 STEP(`references/case_file/RT_7511/RT-7511.STEP`, zip에서 풀기)이 있어야 보이고, 종류가 Unspecified라 3D 뷰어 `Virtual Models` 체크로 켜고 끔
+- 3D 모델: U2·U3·U4는 KiCad 기본 SOT 모델, F1은 `FUSE_3557-2.pretty/3557-2.step`, **J1은 `libraries/3dmodels/KH-BNC75-3511.wrl`(데이터시트 치수로 만든 단순 모델)**, **J3는 SnapEDA `libraries/3dmodels/B2PS-VH.STEP`** (PCB 인스턴스에 rotate x −90, offset x +1.98로 맞춤 — KiCad 기본 VH 풋프린트라 PCB에만 설정). C1은 기본 모델을 Ø5×11에 맞춰 z 배율 2.2. 케이스 `MECH1`은 로컬 STEP(`references/case_file/RT_7511/RT-7511.STEP`, zip에서 풀기)이 있어야 보이고, 종류가 Unspecified라 3D 뷰어 `Virtual Models` 체크로 켜고 끔
+- **외부 라이브러리 파일 출처·라이선스는 `libraries/THIRD_PARTY.md`**. 새 외부 파일(SnapEDA·Ultra Librarian·제조사 등)을 넣으면 거기에 한 줄 추가. 도면에 복제 금지 문구가 있는 자료만 로컬 전용(`.gitignore`). 데이터시트 PDF는 저장소에 두고, 제조사 요청 시 링크로 대체
 - 프로젝트 라이브러리 등록은 `sym-lib-table` / `fp-lib-table`로 관리 — **깃에 반드시 포함**
 
 ## MCP 자동화 환경
