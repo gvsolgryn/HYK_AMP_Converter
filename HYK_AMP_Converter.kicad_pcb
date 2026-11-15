@@ -8851,7 +8851,7 @@
 				)
 			)
 		)
-		(attr through_hole board_only exclude_from_bom)
+		(attr board_only exclude_from_bom)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -1.5 -37.5)
@@ -8914,6 +8914,26 @@
 			(uuid "5a30a22b-0d4f-46b2-aafb-7e179e3ffe15")
 		)
 		(fp_line
+			(start 0 -35.25)
+			(end 107 -35.25)
+			(stroke
+				(width 0.1)
+				(type dash_dot)
+			)
+			(layer "Dwgs.User")
+			(uuid "95ff05a6-d191-44cd-a6ad-9b8a6797c6e6")
+		)
+		(fp_line
+			(start 0 35.25)
+			(end 107 35.25)
+			(stroke
+				(width 0.1)
+				(type dash_dot)
+			)
+			(layer "Dwgs.User")
+			(uuid "7f381d56-d920-48fb-905c-a859b1355ef7")
+		)
+		(fp_line
 			(start 107 -37.5)
 			(end 107 37.5)
 			(stroke
@@ -8937,6 +8957,17 @@
 			(at -0.75 0 90)
 			(layer "Dwgs.User")
 			(uuid "15047715-a6d1-47d8-8c9e-b06b6decf41c")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.1)
+				)
+			)
+		)
+		(fp_text user "GROOVE BOTTOM (70.5)"
+			(at 70 -34.6 0)
+			(layer "Dwgs.User")
+			(uuid "ebf96dad-2f67-4a01-a32e-222d8bae467e")
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -9661,15 +9692,15 @@
 			(uuid "06b68143-6e70-4ba5-960d-1aa6cf38828f")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/libraries/3dmodels/JST_VH_B2PS-VH_1x02_P3.96mm_Horizontal.wrl"
+		(model "${KIPRJMOD}/libraries/3dmodels/B2PS-VH.STEP"
 			(offset
-				(xyz 0 0 0)
+				(xyz 1.98 0 0)
 			)
 			(scale
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz -90 0 0)
 			)
 		)
 	)

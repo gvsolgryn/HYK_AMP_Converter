@@ -22,5 +22,9 @@ __pycache__/
 # 치수는 docs/DUDU7_i40_SPDIF_TX_Rev1_PCB_Mechanical_Handoff_20261113.md 에 기록
 references/case_file/
 
+# ===== SnapEDA 3D 모델 (SnapEDA 약관상 재배포 불가 · 공개 저장소) — 로컬 전용 =====
+# 출처: https://www.snapeda.com/parts/B2PS-VH/JST%20Sales/view-part/ → libraries/3dmodels/B2PS-VH.STEP 로 저장
+libraries/3dmodels/B2PS-VH.STEP
+
 # ===== KiCad 라이브러리 테이블 자동 백업 =====
 *.bak
